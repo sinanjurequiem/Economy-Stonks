@@ -2,7 +2,7 @@
   "name": "economy_stonks",
   "version": "1.0.0",
   "description": "",
-  "main": "bot.js",
+  "main": "index.js",
   "dependencies": {
     "discord.js": "^12.5.1",
     "discord.js-pagination": "^1.0.3",
