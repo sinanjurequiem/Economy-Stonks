@@ -1,6 +1,16 @@
-const { Client } = require('discord.js');
-const bot = new Client();
+const Discord = require('discord.js');
+const client = new Discord.Client();
+const {prefix, token} = require('./config.json');
 
-bot.on('ready', () => console.log(`Logged in as ${bot.user.username}`));
+client.on('ready', () => {
+    console.log(`Logged in as ${client.user.tag}`);
+});
+client.on('message', msg => {
+    if (msg.content === `${prefix}ping`) {
+        msg.reply(`this isn't the basic command you dumb`)
+    } else if (msg.content === `you suck`) {
+        msg.reply(`no u`)
+    }
+});
 
-bot.login ('ODAzMzg0MDE0NjE4NjI0MDgx.YA8_qw.fgthvaBuUGi2_U5LHCylgisWoQM');
+client.login(token);
