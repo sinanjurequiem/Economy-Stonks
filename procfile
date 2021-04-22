@@ -1,2 +1,0 @@
-Worker: node bot.js 
-web: npm start --prefix
