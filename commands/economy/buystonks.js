@@ -3,6 +3,7 @@ module.exports = {
 	description: "buy stonks",
 	args: true,
 	usage: "<number of stonks> <first 4 letters of the stonk you want to buy (e.g doge, amog)>",
+	
 	execute(msg, dbClient, args){
 		var amount = parseInt(args[0]);
 		var stockName = args[1];
@@ -40,7 +41,7 @@ module.exports = {
         $inc: {
           [stockName + ".quantity"]: -amount,
           [stockName + ".demand"]: (amount/totalQuantity)*(1000-demand),
-          [stockName + ".value"]: price * (amount / totalQuantity) * (demand/500) * Math.random() * 2
+          // [stockName + ".value"]: price * (amount / totalQuantity) * (demand/500) * Math.random() * 2
         },
       };
 
@@ -61,7 +62,7 @@ module.exports = {
       dbo.collection("economy").updateOne(userQuery, updateDocumentUser);
     }).then(function(updateUserResult, err){
       if (err) throw err;
-      msg.reply(`you have bought ${amount} ${stockName} for $${amount*price.toFixed(2)}.`)
+      msg.reply(`you have bought ${amount} ${stockName} at $${price.toFixed(10)*amount}.`)
     }).catch(err => {console.log(err)});
 	}
 }
