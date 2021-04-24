@@ -32,7 +32,7 @@ module.exports = {
         dbo.collection("economy").updateOne(query, updateDocument, function(err, res) {
           if (err) throw err;
           console.log(`${msg.author.username} has recieved their hourly bonus.`);
-          msg.reply("you have recieved your hourly bonus of 25$.");
+          msg.reply("you have recieved your hourly bonus of $25.");
           hourlycooldowns.set(msg.author.id, Date.now() + 3600000);
           setTimeout(() => hourlycooldowns.delete(msg.author.id), 3600000);
         });

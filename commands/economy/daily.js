@@ -31,7 +31,7 @@ module.exports = {
         dbo.collection("economy").updateOne(query, updateDocument, function(err, res) {
           if (err) throw err;
           console.log(`${msg.author.username} has recieved their daily bonus.`);
-          msg.reply("you have recieved your daily bonus of 250$.");
+          msg.reply("you have recieved your daily bonus of $250.");
           dailycooldowns.set(msg.author.id, Date.now() + 86400000);
           setTimeout(() => dailycooldowns.delete(msg.author.id), 86400000);
         })

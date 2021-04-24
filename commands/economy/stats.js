@@ -14,7 +14,6 @@ module.exports = {
           msg.reply("type $start to create an account first.")
         }
         else {
-          // console.log(result[0].balance);
           var cashStatsEmbed = new Discord.MessageEmbed()
             .setTitle(`${taggedUser.username}'s General Stats`)
             .setDescription(`these are your stats.`)
@@ -39,13 +38,13 @@ module.exports = {
             .setTitle(`${taggedUser.username}'s Stonks`)
             .setDescription(`these are your *stonks*. their value will fluctuate, so buy and sell these as much as you can.`)
             .addFields(
-              {name: "Doge Space Inc", value: `${result[0].dogestock} shares`},
-              {name: "Amogus Drip", value: `${result[0].amogusdrip} shares`},
-              {name: "PewDiePie Memes Ltd", value: `${result[0].pewdiepies} shares`},
-              {name: "Markiplier's FNAF Monopoly", value: `${result[0].markipliers} shares`},
-              {name: "Jack's Septic Tanks", value: `${result[0].jacksepticeyes} shares`},
-              {name: "Fartnite by TerribleGames™", value: `${result[0].fartnite} shares`},
-              {name: "Rob Blocks by Builderman Unlimited", value: `${result[0].robblocks} shares`}
+              {name: "Doge Space Inc", value: `${result[0].stock.doge.quantity} shares`},
+              {name: "Amogus Drip", value: `${result[0].stock.amog.quantity} shares`},
+              {name: "PewDiePie Memes Ltd", value: `${result[0].stock.pewd.quantity} shares`},
+              {name: "Markiplier's FNAF Monopoly", value: `${result[0].stock.mark.quantity} shares`},
+              {name: "Jack's Septic Tanks", value: `${result[0].stock.jack.quantity} shares`},
+              {name: "Fartnite by TerribleGames™", value: `${result[0].stock.fart.quantity} shares`},
+              {name: "Rob Blocks by Builderman Unlimited", value: `${result[0].stock.robb.quantity} shares`}
             )
             msg.reply(stonksStatsEmbed)
         }

@@ -19,7 +19,7 @@ ap.on('posted', () => {
 	console.log('Posted stats to Top.gg!')
 })
 
-const prefix = "$";
+const prefix = config.prefix;
 const QuickChart = require('quickchart-js');
 const parseMilliseconds = require('parse-ms');
 const humanizeDuration = require('humanize-duration');
@@ -91,7 +91,6 @@ function cryptoMine() {
 	setTimeout(function() {
 		cryptoMine();
 		loop();
-		console.log(client.user.uptime);
 	}, rand);
 	console.log("a block has been mined")
 }());

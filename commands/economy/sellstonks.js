@@ -2,14 +2,14 @@ module.exports = {
 	name: "sellstonks",
 	description: "sell stonks",
 	args: true,
-	usage: "<number of stonks> <first 4 letters of the stonk you want to buy (e.g doge, amog)>",
+	usage: "<number of stonks> <first 4 letters of the stonk you want to sell (e.g doge, amog)>",
 	execute(msg, dbClient, args){
 		var amount = parseInt(args[0]);
-		var stock = args[1];
+		var stockName = args[1];
     var price;
-		
+
 		if (isNaN(amount)) {
-			msg.reply("please type a valid number.");
+			msg.reply("Please enter a valid number.");
 			return;
 		}
 
@@ -17,27 +17,23 @@ module.exports = {
     var query = { bank: `1`};
     var userQuery = { id: `${msg.author.id}` };
 
-    dbo.collection("economy").find(query).toArray().then(function(result) {
-      console.log(result);
-      
-      if (!(stock in result[0])){
-        console.log("Stock does not exist");
-        msg.reply("Stonk does not exist, please enter a valid stonk.");
+    dbo.collection("economy").find(userQuery).toArray().then(function(userResult) {
+
+      if (!(stockName in userResult[0].stock)){
+        msg.reply("Stonk does not exist, please enter a valid stonk. Format: $sellstonks <amount> <first 4 letters of stonk>");
         throw err;
       }
-      if (amount > result[0][stock].quantity){
-        msg.reply("that's more stonks than you have. type a lower number, or buy some stonks.");
+      if (amount > userResult[0].stock[stockName].quantity){
+        msg.reply("that's more stonks than you have. type a lower number.");
         throw err;
       }
-      
-      price = result[0][stock].value;
-      
-      return dbo.collection("economy").find(userQuery).toArray();
-    }).then(function(userResult){
-      console.log(userResult);
+
+      return dbo.collection("economy").find(query).toArray();
+    }).then(function(result){
+		  price = result[0][stockName].value;
       const updateDocument =  {
         $inc: {
-          "[stock].quantity": amount
+          [stockName + ".quantity"]: -amount
         },
       };
 
@@ -46,15 +42,15 @@ module.exports = {
       if (err) throw err;
       const updateDocumentUser = {
         $inc:{
-          dogestock: -amount,
+          ["stock." + stockName + ".quantity"]: -amount,
           balance: amount*price
         }
       }
-      console.log("updated document");
+      console.log(`${msg.author.username} sold ${amount} ${stockName} at $${price}`);
       dbo.collection("economy").updateOne(userQuery, updateDocumentUser);
     }).then(function(updateUserResult, err){
       if (err) throw err;
-      msg.reply(`you have sold ${amount} ${stock} for $${amount*price}.`)
+      msg.reply(`you have sold ${amount} ${stockName} for $${price*amount}.`)
     }).catch(err => {console.log(err)});
 	}
 }

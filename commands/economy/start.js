@@ -12,13 +12,29 @@ module.exports = {
           balance: 0,
           username: `${msg.author.username}`,
 
-          dogestock: 0,
-          amogusdrip: 0,
-          pewdiepies: 0,
-          markspliers: 0,
-          jacksepticeyes: 0,
-          fartnite: 0,
-          robblocks: 0,
+          stock: {
+            doge: {
+              quantity: 0
+            },
+            amog: {
+              quantity: 0
+            },
+            pewd: {
+              quantity: 0
+            },
+            mark: {
+              quantity: 0
+            },
+            jack: {
+              quantity: 0
+            },
+            fart: {
+              quantity: 0
+            },
+            robb: {
+              quantity: 0
+            }
+          },
 
           rig: 0,
           pool: 0
@@ -31,7 +47,6 @@ module.exports = {
         var bal = result[0].balance;
         msg.reply(`you have already created an account.`)
         console.log(`${msg.author.username} has ` + bal + `in his/her account.`);
-        //const obj = JSON.parse(result[0]);
       }
     });
 	}
