@@ -21,7 +21,6 @@ ap.on('posted', () => {
 
 const prefix = config.prefix;
 const QuickChart = require('quickchart-js');
-const parseMilliseconds = require('parse-ms');
 const humanizeDuration = require('humanize-duration');
 
 require('dotenv').config();
@@ -85,7 +84,23 @@ function cryptoMine() {
   });
 }
 
-//loop for cryptominer
+// //stonks update function
+// function stockUpdate(){
+// 	var dbo = dbClient.db("economy");
+// 	var query = ({bank: "1"});
+// 	dbo.collection("economy").find(query).toArray(function(err, result){
+// 		if (err) throw err;
+// 		var stockList = result[0].
+// 		const updateDocument = {
+// 			$inc: {
+				
+// 			}
+// 		}
+
+// 	})
+// }
+
+//loop for stuff
 (function loop() {
 	var rand = Math.round(Math.random() * (500000 - 250000)) + 250000;
 	setTimeout(function() {

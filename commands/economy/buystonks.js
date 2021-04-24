@@ -7,6 +7,8 @@ module.exports = {
 		var amount = parseInt(args[0]);
 		var stockName = args[1];
     var price;
+    var totalQuantity;
+    var demand;
 
 		if (isNaN(amount)) {
 			msg.reply("$buystonks <quantity> <first 4 characters of the stock>");
@@ -29,12 +31,16 @@ module.exports = {
       }
 
       price = result[0][stockName].value;
+      totalQuantity = result[0][stockName].totalQuantity;
+      demand = result[0][stockName].demand;
 
       return dbo.collection("economy").find(userQuery).toArray();
     }).then(function(userResult){
       const updateDocument =  {
         $inc: {
-          [stockName + ".quantity"]: -amount
+          [stockName + ".quantity"]: -amount,
+          [stockName + ".demand"]: (amount/totalQuantity)*(1000-demand),
+          [stockName + ".value"]: price * (amount / totalQuantity) * (demand/500) * Math.random() * 2
         },
       };
 
@@ -51,11 +57,11 @@ module.exports = {
           balance: -amount*price
         }
       }
-      console.log(`${msg.author.username} bought ${amount} ${stockName} at $${price}`);
+      console.log(`${msg.author.username} bought ${amount} ${stockName} at $${price.toFixed(2)}`);
       dbo.collection("economy").updateOne(userQuery, updateDocumentUser);
     }).then(function(updateUserResult, err){
       if (err) throw err;
-      msg.reply(`you have bought ${amount} ${stockName} for $${amount*price}.`)
+      msg.reply(`you have bought ${amount} ${stockName} for $${amount*price.toFixed(2)}.`)
     }).catch(err => {console.log(err)});
 	}
 }

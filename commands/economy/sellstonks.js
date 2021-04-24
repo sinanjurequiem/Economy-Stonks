@@ -7,6 +7,8 @@ module.exports = {
 		var amount = parseInt(args[0]);
 		var stockName = args[1];
     var price;
+    var totalQuantity;
+    var demand;
 
 		if (isNaN(amount)) {
 			msg.reply("Please enter a valid number.");
@@ -31,9 +33,14 @@ module.exports = {
       return dbo.collection("economy").find(query).toArray();
     }).then(function(result){
 		  price = result[0][stockName].value;
+      totalQuantity = result[0][stockName].totalQuantity;
+      demand = result[0][stockName].demand;
+
       const updateDocument =  {
         $inc: {
-          [stockName + ".quantity"]: -amount
+          [stockName + ".quantity"]: amount,
+          [stockName + ".demand"]: -(amount/totalQuantity)*(1000-demand)*(demand*2/1000),
+          [stockName + ".value"]: -price * (amount / totalQuantity) * (demand/500) * Math.random() * 2
         },
       };
 
@@ -46,11 +53,11 @@ module.exports = {
           balance: amount*price
         }
       }
-      console.log(`${msg.author.username} sold ${amount} ${stockName} at $${price}`);
+      console.log(`${msg.author.username} sold ${amount} ${stockName} at $${price.toFixed(2)}`);
       dbo.collection("economy").updateOne(userQuery, updateDocumentUser);
     }).then(function(updateUserResult, err){
       if (err) throw err;
-      msg.reply(`you have sold ${amount} ${stockName} for $${price*amount}.`)
+      msg.reply(`you have sold ${amount} ${stockName} for $${amount*price.toFixed(2)}.`)
     }).catch(err => {console.log(err)});
 	}
 }
