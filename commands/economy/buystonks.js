@@ -68,7 +68,7 @@ module.exports = {
       dbo.collection("economy").updateOne(userQuery, updateDocumentUser);
     }).then(function(updateUserResult, err){
       if (err) throw err;
-      msg.reply(`you have bought ${amount} ${stockName} at $${price.toFixed(10)*amount}.`)
+      msg.reply(`you have bought ${amount} ${stockName} for $${price.toFixed(10)*amount}.`)
     }).catch(err => {console.log(err)});
 	}
 }
