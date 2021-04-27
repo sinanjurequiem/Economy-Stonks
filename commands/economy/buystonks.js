@@ -10,6 +10,7 @@ module.exports = {
     var price;
     var totalQuantity;
     var demand;
+    var avgBuyPrice, ownedQuantity;
 
 		if (isNaN(amount)) {
 			msg.reply("$buystonks <quantity> <first 4 characters of the stock>");
@@ -37,12 +38,14 @@ module.exports = {
 
       return dbo.collection("economy").find(userQuery).toArray();
     }).then(function(userResult){
+      avgBuyPrice = userResult[0].stock[stockName].avgPrice;
+      ownedQuantity = userResult[0].stock[stockName].quantity;
       const updateDocument =  {
         $inc: {
           [stockName + ".quantity"]: -amount,
           [stockName + ".demand"]: (amount/totalQuantity)*(1000-demand),
           // [stockName + ".value"]: price * (amount / totalQuantity) * (demand/500) * Math.random() * 2
-        },
+        }
       };
 
       if (amount*price > userResult[0].balance){
@@ -56,6 +59,9 @@ module.exports = {
         $inc:{
           ["stock." + stockName + ".quantity"]: amount,
           balance: -amount*price
+        },
+        $set: {
+          ["stock." + stockName + ".avgPrice"]: (avgBuyPrice*ownedQuantity + price*amount)/(ownedQuantity + amount)
         }
       }
       console.log(`${msg.author.username} bought ${amount} ${stockName} at $${price.toFixed(2)}`);

@@ -38,13 +38,13 @@ module.exports = {
             .setTitle(`${taggedUser.username}'s Stonks`)
             .setDescription(`these are your *stonks*. their value will fluctuate, so buy and sell these as much as you can.`)
             .addFields(
-              {name: "Doge Space Inc", value: `${result[0].stock.doge.quantity} shares`},
-              {name: "Amogus Drip", value: `${result[0].stock.amog.quantity} shares`},
-              {name: "PewDiePie Memes Ltd", value: `${result[0].stock.pewd.quantity} shares`},
-              {name: "Markiplier's FNAF Monopoly", value: `${result[0].stock.mark.quantity} shares`},
-              {name: "Jack's Septic Tanks", value: `${result[0].stock.jack.quantity} shares`},
-              {name: "Fartnite by TerribleGames™", value: `${result[0].stock.fart.quantity} shares`},
-              {name: "Rob Blocks by Builderman Unlimited", value: `${result[0].stock.robb.quantity} shares`}
+              {name: "Doge Space Inc", value: `${result[0].stock.doge.quantity} shares at ${result[0].stock.doge.avgPrice.toFixed(2)}`},
+              {name: "Amogus Drip", value: `${result[0].stock.amog.quantity} shares at ${result[0].stock.amog.avgPrice.toFixed(2)}`},
+              {name: "PewDiePie Memes Ltd", value: `${result[0].stock.pewd.quantity} shares at ${result[0].stock.pewd.avgPrice.toFixed(2)}`},
+              {name: "Markiplier's FNAF Monopoly", value: `${result[0].stock.mark.quantity} shares at ${result[0].stock.mark.avgPrice.toFixed(2)}`},
+              {name: "Jack's Septic Tanks", value: `${result[0].stock.jack.quantity} shares at ${result[0].stock.jack.avgPrice.toFixed(2)}`},
+              {name: "Fartnite by TerribleGames™", value: `${result[0].stock.fart.quantity} shares at ${result[0].stock.fart.avgPrice.toFixed(2)}`},
+              {name: "Rob Blocks by Builderman Unlimited", value: `${result[0].stock.robb.quantity} shares at ${result[0].stock.robb.avgPrice.toFixed(2)}`}
             )
             msg.reply(stonksStatsEmbed)
         }
