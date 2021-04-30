@@ -9,16 +9,40 @@ module.exports = {
 			taggedUser = msg.author;
       var dbo = dbClient.db("economy");
       var query = { id: `${taggedUser.id}` };
-      dbo.collection("economy").find(query).toArray(function(err, result) {
+      var queryAll = {};
+      var rank = 1;
+      var totalUsers;
+
+      dbo.collection("economy").find(queryAll).toArray().then(function(result, err) {
+        var balance;
+        for (var i = 0; i < result.length; i++) {
+          if (result[i].id == msg.author.id) {
+            balance = result[i].balance;
+            break;
+          }
+        }
+        for (var i = 0; i < result.length; i++) {
+          if (result[i].id == msg.author.id || result[i].username == 'bank') {
+            continue;
+          }
+          if (result[i].balance > balance) {
+            rank += 1;
+          }
+        }
+        total_users = result.length-1;
+
+        return dbo.collection("economy").find(query).toArray();
+      }).then(function(result, err) {
         if (result.length == 0) {
           msg.reply("type $start to create an account first.")
         }
         else {
           var cashStatsEmbed = new Discord.MessageEmbed()
             .setTitle(`${taggedUser.username}'s General Stats`)
-            .setDescription(`these are your stats.`)
+            .setDescription(`These are your stats`)
             .addFields(
-              { name: "current money", value: `${Math.round(result[0].balance*100)/100}$` }
+              { name: "current money", value: `${Math.round(result[0].balance*100)/100}$` },
+							{ name: "global rank", value: `You're ${rank} out of ${total_users} players.`}
             )
           msg.reply(cashStatsEmbed);
 
@@ -48,7 +72,7 @@ module.exports = {
             )
             msg.reply(stonksStatsEmbed)
         }
-      });
+      }).catch(err => {console.log(err)});
     }
 	}
 }
