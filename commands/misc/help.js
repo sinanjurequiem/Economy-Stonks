@@ -22,7 +22,6 @@ module.exports = {
 					{ name: "`$ping`", value: "this is won't give you your ping, or ping another user, nor will it reply with 'pong'. it is merely a test command.", inline: true },
 					{ name: "`$patreon`", value: "donate on patreon. everything donated goes toward keeping the bot running.", inline: true },
 					{ name: "`$vote`", value: "vote for the bot on top.gg and get rewards, up to $750000! so vote.", inline: true},
-					{ name: "`$deleteaccount`", value: "delete all your progress so far and remove your account.", inline: true},
 
 				)
 				.setDescription(`yeah, i know. an economy is complicated. here's a list of my commands and their usage. btw my prefix is \`${prefix}\``)

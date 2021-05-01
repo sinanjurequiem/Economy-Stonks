@@ -18,8 +18,9 @@ const ap = AutoPoster(config.topggtoken, client)
 ap.on('posted', () => {
 	console.log('Posted stats to Top.gg!')
 })
+const botdash = require('botdash.pro');
+var dashboard = "";
 
-const prefix = config.prefix;
 const QuickChart = require('quickchart-js');
 const humanizeDuration = require('humanize-duration');
 
@@ -28,7 +29,7 @@ require('dotenv').config();
 
 
 //global variables
-const moneyPerBlock = 0.7;
+const moneyPerBlock = 0.069;
 var MongoClient = require('mongodb').MongoClient;
 var url = config.dburl;
 var dbClient = null;
@@ -38,11 +39,22 @@ var dbClient = null;
 client.login(config.token);
 
 //client on login
-client.on('ready', () => {
-	console.log(`Bot is ready. (${client.guilds.cache.size} Guilds - ${client.channels.cache.size} Channels - ${client.users.cache.size} Users)`);
-	let activities = [`stonks go brr`, `stonks go brrr`, `stonks go brrrr`], i = 0;
-	setInterval(() => client.user.setActivity(`${activities[i++ % activities.length]}`, { type: "WATCHING" }), 50000)
+client.on('ready', async () => {
+	let servers = await client.guilds.cache.size;
+	let channels = await client.channels.cache.size;
+	let users = await client.users.cache.size;
+	dashboard = new botdash.APIclient(config.botdashtoken);
+	console.log(`Bot is ready. (${servers} Guilds - ${channels} Channels - ${users} Users)`);
+	setInterval(function(){
+		servers = client.guilds.cache.size;
+		channels = client.channels.cache.size;
+		users = client.users.cache.size;
+		client.user.setActivity(` ${servers} servers, ${channels} channels, and ${users} 			users. I see you all. hehehehehehehehehehehe`,{
+			type: 'WATCHING'
+		})
+	}, 5000)
 });
+
 
 MongoClient.connect(url, function(err, db) {
   dbClient = db;
@@ -125,7 +137,9 @@ function stockUpdate(){
 }());
 
 //command handler
-client.on('message', msg => {
+client.on('message', async function(msg) {
+	const prefix = await dashboard.getVal(msg.guild.id, "prefix");
+
 	if (!msg.content.startsWith(prefix) || msg.author.bot) return;
 
 	const args = msg.content.slice(prefix.length).trim().split(/ +/);
