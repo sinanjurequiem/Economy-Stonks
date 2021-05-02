@@ -75,13 +75,13 @@ function cryptoMine() {
 
     // go through the users to get a unique Set of rigs
     for (var i = 0; i < result.length; i++) {
+      if (result[i].username == "bank")
+        continue;
       rigs.add(result[i].rig);
     }
-
     // convert Set to Array to be able to iterate through them
     var rigArray = Array.from(rigs);
     for (var i = 0; i < rigArray.length; i++) {
-
       const updateDocument = {
         $inc: {
           balance: (config.moneyPerBlock*rigArray[i]*Math.random()*2)
