@@ -19,7 +19,7 @@ ap.on('posted', () => {
 	console.log('Posted stats to Top.gg!')
 })
 const botdash = require('botdash.pro');
-var dashboard = "";
+var dashboard;
 
 const QuickChart = require('quickchart-js');
 const humanizeDuration = require('humanize-duration');
@@ -29,7 +29,6 @@ require('dotenv').config();
 
 
 //global variables
-const moneyPerBlock = 0.069;
 var MongoClient = require('mongodb').MongoClient;
 var url = config.dburl;
 var dbClient = null;
@@ -85,7 +84,7 @@ function cryptoMine() {
 
       const updateDocument = {
         $inc: {
-          balance: (rigArray[i]+2)**3*100
+          balance: (config.moneyPerBlock*rigArray[i]*Math.random()*2)
         }
       };
 

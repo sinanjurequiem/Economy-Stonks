@@ -1,4 +1,5 @@
 const Discord = require('discord.js');
+const config = require('../../config.json');
 
 module.exports = {
 	name: "stats",
@@ -7,6 +8,7 @@ module.exports = {
 		var taggedUser = msg.mentions.users.first();
 		if (!msg.mentions.users.size){
 			taggedUser = msg.author;
+		}
       var dbo = dbClient.db("economy");
       var query = { id: `${taggedUser.id}` };
       var queryAll = {};
@@ -46,14 +48,14 @@ module.exports = {
             )
           msg.reply(cashStatsEmbed);
 
-          var costOfUpgrade = ((result[0].rig + 2) ** 4) * 100;
+          var costOfUpgrade = ((result[0].rig + 2) ** 2) * 100;
 
           var minerStatsEmbed = new Discord.MessageEmbed()
             .setTitle(`${taggedUser.username}'s Crypto Miner Stats`)
             .setDescription(`this is your crypto miner's stats. it lets you create passive income.`)
             .addFields(
               { name: "miner level", value: `level ${result[0].rig}` },
-              { name: "earnings per block", value: `${Math.round(result[0].rig * 0.7 * 100) / 100}$` },
+              { name: "earnings per block", value: `${config.moneyPerBlock*(result[0].rig/2)}` },
               { name: "cost to upgrade to next level", value: `${costOfUpgrade}$` }
             )
           msg.reply(minerStatsEmbed);
@@ -75,4 +77,3 @@ module.exports = {
       }).catch(err => {console.log(err)});
     }
 	}
-}

@@ -14,25 +14,32 @@ module.exports = {
 
           stock: {
             doge: {
-              quantity: 0
+              quantity: 0,
+              avgPrice: 0
             },
             amog: {
-              quantity: 0
+              quantity: 0,
+              avgPrice: 0
             },
             pewd: {
-              quantity: 0
+              quantity: 0,
+              avgPrice: 0
             },
             mark: {
-              quantity: 0
+              quantity: 0,
+              avgPrice: 0
             },
             jack: {
-              quantity: 0
+              quantity: 0,
+              avgPrice: 0
             },
             fart: {
-              quantity: 0
+              quantity: 0,
+              avgPrice: 0
             },
             robb: {
-              quantity: 0
+              quantity: 0,
+              avgPrice: 0
             }
           },
 
