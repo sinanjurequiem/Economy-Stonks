@@ -1,3 +1,5 @@
+var helper = require('../../helpers.js');
+
 module.exports = {
 	name: "buystonks",
 	description: "buy stonks",
@@ -64,11 +66,11 @@ module.exports = {
           ["stock." + stockName + ".avgPrice"]: (avgBuyPrice*ownedQuantity + price*amount)/(ownedQuantity + amount)
         }
       }
-      console.log(`${msg.author.username} bought ${amount} ${stockName} at $${price.toFixed(2)}`);
+      console.log(`${msg.author.username} bought ${amount} ${stockName} at $${helper.formatNumber(price.toFixed(2))}`);
       dbo.collection("economy").updateOne(userQuery, updateDocumentUser);
     }).then(function(updateUserResult, err){
       if (err) throw err;
-      msg.reply(`you have bought ${amount} ${stockName} for $${price.toFixed(10)*amount}.`)
+      msg.reply(`you have bought ${amount} ${stockName} for $${helper.formatNumer(price.toFixed(10)*amount)}.`)
     }).catch(err => {console.log(err)});
 	}
 }

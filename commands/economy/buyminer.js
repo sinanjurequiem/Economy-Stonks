@@ -1,3 +1,5 @@
+var helper = require('../../helpers.js');
+
 module.exports = {
 	name: "buyminer",
 	description: "buy a crypto miner.",
@@ -22,7 +24,7 @@ module.exports = {
         if (result[0].rig == 0) {
           msg.reply(`you have bought a crypto mining machine for ${costOfUpgrade}.`)
         } else {
-          msg.reply(`you have upgraded your crypto miner to level ${result[0].rig + 1} for ${costOfUpgrade} dollars. (it wouldn't let me put a dollar sign there lol)`)
+          msg.reply(`you have upgraded your crypto miner to level ${result[0].rig + 1} for $${helper.formatNumber(costOfUpgrade)}.`)
         }
         return dbo.collection("economy").updateOne(query, updateDocument);
       }

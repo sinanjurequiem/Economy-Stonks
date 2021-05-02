@@ -105,19 +105,19 @@ function stockUpdate(){
 		const updateDocument = {
 			$inc: {
 				"doge.value": result[0].doge.value * ((result[0].doge.demand-500)/5000) * Math.random(),
-        "doge.demand": -0.1,
+        "doge.demand": -10,
 				"amog.value": result[0].amog.value * ((result[0].amog.demand-500)/5000) * Math.random(),
-        "amog.demand": -0.1,
+        "amog.demand": -10,
 				"pewd.value": result[0].pewd.value * ((result[0].pewd.demand-500)/5000) * Math.random(),
-        "pewd.demand": -0.1,
+        "pewd.demand": -10,
 				"mark.value": result[0].mark.value * ((result[0].mark.demand-500)/5000) * Math.random(),
-        "mark.demand": -0.1,
+        "mark.demand": -10,
 				"jack.value": result[0].jack.value * ((result[0].jack.demand-500)/5000) * Math.random(),
-        "jack.demand": -0.1,
+        "jack.demand": -10,
 				"fart.value": result[0].fart.value * ((result[0].fart.demand-500)/5000) * Math.random(),
-        "fart.demand": -0.1,
+        "fart.demand": -10,
 				"robb.value": result[0].robb.value * ((result[0].robb.demand-500)/5000) * Math.random(),
-        "robb.demand": -0.1,
+        "robb.demand": -10,
 			}
 		}
     return dbo.collection("economy").updateOne(query, updateDocument);

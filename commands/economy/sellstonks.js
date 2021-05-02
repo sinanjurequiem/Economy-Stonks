@@ -1,3 +1,5 @@
+var helper = require('../../helpers.js');
+
 module.exports = {
 	name: "sellstonks",
 	description: "sell stonks",
@@ -53,11 +55,11 @@ module.exports = {
           balance: amount*price
         }
       }
-      console.log(`${msg.author.username} sold ${amount} ${stockName} at $${price.toFixed(2)}`);
+      console.log(`${msg.author.username} sold ${amount} ${stockName} at $${helper.formatNumber(price.toFixed(2))}`);
       dbo.collection("economy").updateOne(userQuery, updateDocumentUser);
     }).then(function(updateUserResult, err){
       if (err) throw err;
-      msg.reply(`you have sold ${amount} ${stockName} for $${price.toFixed(10)*amount}.`)
+      msg.reply(`you have sold ${amount} ${stockName} for $${helper.formatNumber(price.toFixed(10)*amount)}.`)
     }).catch(err => {console.log(err)});
 	}
 }
