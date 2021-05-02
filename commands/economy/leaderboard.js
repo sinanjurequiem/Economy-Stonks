@@ -1,8 +1,5 @@
 const Discord = require('discord.js');
-
-function formatNumber(num) {
-  return num.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,')
-}
+var helper = require('../../helpers.js');
 
 module.exports = {
 	name:"leaderboard",
@@ -13,7 +10,7 @@ module.exports = {
       var leaderboard = result.filter(user => user.username != "bank" && user.balance)
           .sort((a, b) => b.balance - a.balance)
           .slice(0, 10)
-          .map((user, position) => `[${position+1}] ${user.username}: ${formatNumber(user.balance.toFixed(2))}$`)
+          .map((user, position) => `[${position+1}] ${user.username}: ${helper.formatNumber(user.balance.toFixed(2))}$`)
           .join('\n')
       var embed = new Discord.MessageEmbed()
           .setTitle('Global Leaderboard')

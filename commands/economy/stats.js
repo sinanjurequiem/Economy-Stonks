@@ -43,7 +43,7 @@ module.exports = {
             .setTitle(`${taggedUser.username}'s General Stats`)
             .setDescription(`These are your stats`)
             .addFields(
-              { name: "current money", value: `${Math.round(result[0].balance*100)/100}$` },
+              { name: "bank balance", value: `$${Math.round(result[0].balance*100)/100}` },
 							{ name: "global rank", value: `You're ${rank} out of ${total_users} players.`}
             )
           msg.reply(cashStatsEmbed);
@@ -55,8 +55,8 @@ module.exports = {
             .setDescription(`this is your crypto miner's stats. it lets you create passive income.`)
             .addFields(
               { name: "miner level", value: `level ${result[0].rig}` },
-              { name: "earnings per block", value: `${config.moneyPerBlock*(result[0].rig/2)}` },
-              { name: "cost to upgrade to next level", value: `${costOfUpgrade}$` }
+              { name: "earnings per block", value: `$${config.moneyPerBlock*(result[0].rig/2)}` },
+              { name: "cost to upgrade to next level", value: `$${costOfUpgrade}` }
             )
           msg.reply(minerStatsEmbed);
 
