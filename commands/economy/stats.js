@@ -1,5 +1,6 @@
 const Discord = require('discord.js');
 const config = require('../../config.json');
+var helper = require('../../helpers.js');
 
 module.exports = {
 	name: "stats",
@@ -43,8 +44,8 @@ module.exports = {
             .setTitle(`${taggedUser.username}'s General Stats`)
             .setDescription(`These are your stats`)
             .addFields(
-              { name: "bank balance", value: `$${Math.round(result[0].balance*100)/100}` },
-							{ name: "global rank", value: `You're ${rank} out of ${total_users} players.`}
+              { name: "bank balance", value: `$${helper.formatNumber(result[0].balance.toFixed(2))}` },
+							{ name: "global rank", value: `#${rank} out of ${total_users} players.`}
             )
           msg.reply(cashStatsEmbed);
 
