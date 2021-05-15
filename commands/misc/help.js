@@ -1,5 +1,5 @@
 const Discord = require('discord.js');
-const config = require('../../config.json');
+const config = require('../../configuration/config.json');
 const {prefix} = require('../../bot.js')
 
 module.exports = {
@@ -21,7 +21,8 @@ module.exports = {
 					{ name: "`$buystonks`", value: "$buystonks <qty> <first 4 letters of stock>"},
 					{ name: "`$sellstonks`", value: "sell stonks. for usage, check the entry for buystonks."},
 					{ name: "`$help`", value: "what do you think you're looking at?"},
-					{ name: "`$patreon`", value: "donate on patreon. everything donated goes toward keeping the bot running."}
+					{ name: "`$patreon`", value: "donate on patreon. everything donated goes toward keeping the bot running."},
+					{ name: "`$blanks`", value: "do a fill in the blanks game. no, we aren't copying dank memer."}
 				)
 				.setDescription(`yeah, i know. an economy is complicated. here's a list of my commands and their usage. btw my prefix is \`${prefix}\``)
 

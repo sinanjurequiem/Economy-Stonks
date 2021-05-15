@@ -1,0 +1,86 @@
+Level Up:
+requirements:
+-be active in server
+-make moni
+-do required stuff
+
+rank 1:
+- daily/hourly
+- Voting
+
+rank 2:
+- minigame 1
+
+- stock market
+
+5:
+- crypto mining
+
+8:
+- robbing
+
+10:
+- minigame 2
+
+15:
+- minigame 3
+
+20:
+- minigame 4
+
+Objectives list:
+- spend money
+- own stock
+- buy a certain level of cryptominer
+- rob x amount of people
+- voting
+- group objectives
+- server engagement
+
+Minigames:
+
+1. Trivia/Fill in the blank
+- multiplayer/singleplayer
+- first to answer correctly gets a bonus
+
+Game loop:
+Balance the bot and give out absolutely broken rewards for doing things in our favor
+
+EARNING
+Voting -- Give $75 000 and a lottery ticket
+Minigames -- Give $100 - $50 000 and chance of item
+Robbing -- Give 15% of victim's current money
+Lottery -- Chance to get $2 500 000
+Daily -- $2500
+Hourly -- $500
+Crypto -- Depending on miner level
+Bank Heist -- $25 000 - $100 000
+
+SPENDING
+
+Stonks
+Pets
+Items
+Weapons
+Real Estate
+Upgrades
+Armies
+score multiplier objects
+making bad life choices in las vegas aka gambling
+theft insurance
+
+RESOURCE TYPE
+Investment resources are those that influence the speed at which the player receives the main value of the game. Such resources should be expressed in terms of time, and then limited in order to maintain balance. 
+It is very important not to have investment resources, that can bring long-time profits, depend on chance or random factors."
+
+resources: stocks, daily/hourly, real estate
+game actions: heist, robbing, lottery, minigames
+
+
+everything else
+
+NON-INVESTMENT
+
+resources: 
+cosmetic items
+game actions: 
