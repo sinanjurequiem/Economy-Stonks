@@ -20,27 +20,40 @@ module.exports = {
       }
     }).then(function(result,err){
       if (err) throw err;
-      const filter = response => {
-        return item.answers.some(answer => answer.toLowerCase() === response.content.toLowerCase());
-      };
-        msg.channel.send(`**GAME START: 10 seconds to guess**\n ${item.question}`).then(() => {
-          msg.channel.awaitMessages(filter, { time: 10000, max: 1, errors: ['time'] })
-            .then(messages => {
-                msg.reply(`Correct answer.`);
+      var authorID;
+      var correctAnswer = false;
 
-                var queryAnswerer = { id: `${response.first().author.id}` };
-								var updateDocument = {
-									$inc:  {
-										balance: 10
-									}
-								}
-								
-                // give rewards
-                return dbo.collection("economy").updateOne(queryAnswerer, updateDocument);
-            }).catch(messages => {
-              msg.channel.send(`**GAME OVER**\n The correct answer was: ${item.answers}`);
-            });
-        });
+      msg.channel.send(`**GAME START: 10 seconds to guess**\n ${item.question}`);
+      const collector = msg.channel.createMessageCollector(() => {return true}, { time: 10000 });
+
+      collector.on('collect', m => {
+        console.log(`Collected ${m.content}`);
+        if (item.answers.some(answer => answer.toLowerCase() === m.content.toLowerCase())) {
+          authorID = msg.author.id;
+          correctAnswer = true;
+          collector.stop();
+        }
+      });
+
+      collector.on('end', collected => {
+        if (correctAnswer) {
+          console.log(`${authorID} had ${collected.filter(message => message.author.id == authorID).size} answers`)
+          var reward = Math.max(101-collected.filter(message => message.author.id == authorID).size, 4)
+          console.log(`reward: ${reward}`);
+          msg.reply(`Correct answer. You win $${reward}`);
+          var queryAnswerer = { id: `${authorID}` };
+          var updateDocument = {
+            $inc:  {
+              balance: reward
+            }
+          }
+
+          // give rewards
+          return dbo.collection("economy").updateOne(queryAnswerer, updateDocument);
+        } else {
+          msg.channel.send(`**GAME OVER**\n The correct answer was: ${item.answers}`);
+        }
+      });
     }).catch(err => {console.log(err)});
 	}
 }
