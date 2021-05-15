@@ -1,8 +1,5 @@
 const Discord = require('discord.js');
 
-// include quiz
-const quiz = require('../../configuration/blanks.json');
-
 module.exports = {
 	name:"blanks",
 	desc:"fill in the blanks minigame",
