@@ -2,17 +2,19 @@
 const Discord = require('discord.js');
 const client = new Discord.Client({ shardCount: 1 });
 client.commands = new Discord.Collection();
+client.cooldowns = new Discord.Collection();
 const fs = require("fs");
+var command;
 const commandFolders = fs.readdirSync('./commands');
 const commandFiles = fs.readdirSync('./commands').filter(file => file.endsWith('.js'));
 for (const folder of commandFolders) {
 	const commandFiles = fs.readdirSync(`./commands/${folder}`).filter(file => file.endsWith('.js'));
 	for (const file of commandFiles) {
-		const command = require(`./commands/${folder}/${file}`);
+		command = require(`./commands/${folder}/${file}`);
 		client.commands.set(command.name, command);
 	}
 }
-const config = require('./config.json')
+const config = require('./configuration/config.json')
 const AutoPoster = require('topgg-autoposter')
 const ap = AutoPoster(config.topggtoken, client)
 ap.on('posted', () => {
@@ -25,8 +27,6 @@ const QuickChart = require('quickchart-js');
 const humanizeDuration = require('humanize-duration');
 
 require('dotenv').config();
-
-
 
 //global variables
 var MongoClient = require('mongodb').MongoClient;
@@ -44,11 +44,11 @@ client.on('ready', async () => {
 	let users = await client.users.cache.size;
 	dashboard = new botdash.APIclient(config.botdashtoken);
 	console.log(`Bot is ready. (${servers} Guilds - ${channels} Channels - ${users} Users)`);
-	setInterval(function(){
+	setInterval(function() {
 		servers = client.guilds.cache.size;
 		channels = client.channels.cache.size;
 		users = client.users.cache.size;
-		client.user.setActivity(` ${servers} servers, ${channels} channels, and ${users} 			users. I see you all. hehehehehehehehehehehe`,{
+		client.user.setActivity(` ${servers} servers, ${channels} channels, and ${users} 			users. I see you all. hehehehehehehehehehehe`, {
 			type: 'WATCHING'
 		})
 	}, 5000)
@@ -56,71 +56,71 @@ client.on('ready', async () => {
 
 
 MongoClient.connect(url, function(err, db) {
-  dbClient = db;
+	dbClient = db;
 })
 
 //cryptomining function
 function cryptoMine() {
-  var dbo = dbClient.db("economy");
+	var dbo = dbClient.db("economy");
 
-  // unique list of rigs
-  var rigs = new Set();
+	// unique list of rigs
+	var rigs = new Set();
 
-  // query for all users
-  var query = ({});
-  dbo.collection("economy").find(query).toArray(function(err, result) {
-    if (err) throw err;
-    if (result == undefined)
-      console.log("no users");
+	// query for all users
+	var query = ({});
+	dbo.collection("economy").find(query).toArray(function(err, result) {
+		if (err) throw err;
+		if (result == undefined)
+			console.log("no users");
 
-    // go through the users to get a unique Set of rigs
-    for (var i = 0; i < result.length; i++) {
-      if (result[i].username == "bank")
-        continue;
-      rigs.add(result[i].rig);
-    }
-    // convert Set to Array to be able to iterate through them
-    var rigArray = Array.from(rigs);
-    for (var i = 0; i < rigArray.length; i++) {
-      const updateDocument = {
-        $inc: {
-          balance: (config.moneyPerBlock*rigArray[i]*Math.random()*2)
-        }
-      };
+		// go through the users to get a unique Set of rigs
+		for (var i = 0; i < result.length; i++) {
+			if (result[i].username == "bank")
+				continue;
+			rigs.add(result[i].rig);
+		}
+		// convert Set to Array to be able to iterate through them
+		var rigArray = Array.from(rigs);
+		for (var i = 0; i < rigArray.length; i++) {
+			const updateDocument = {
+				$inc: {
+					balance: (config.moneyPerBlock * rigArray[i] * Math.random() * 2)
+				}
+			};
 
-      // update the balances for all users with this rig level
-      var updateQuery = ({ "rig": rigArray[i] });
-      dbo.collection("economy").updateMany(updateQuery, updateDocument);
-    }
-  });
+			// update the balances for all users with this rig level
+			var updateQuery = ({ "rig": rigArray[i] });
+			dbo.collection("economy").updateMany(updateQuery, updateDocument);
+		}
+	});
 }
 
 //stonks update function
-function stockUpdate(){
+function stockUpdate() {
 	var dbo = dbClient.db("economy");
-	var query = ({bank: "1"});
-	dbo.collection("economy").find(query).toArray(function(err, result){
+	var query = ({ bank: "1" });
+	dbo.collection("economy").find(query).toArray(function(err, result) {
 		if (err) throw err;
 		var stockList = result[0]
 		const updateDocument = {
 			$inc: {
-				"doge.value": result[0].doge.value * ((result[0].doge.demand-500)/5000) * Math.random(),
-        "doge.demand": -10,
-				"amog.value": result[0].amog.value * ((result[0].amog.demand-500)/5000) * Math.random(),
-        "amog.demand": -10,
-				"pewd.value": result[0].pewd.value * ((result[0].pewd.demand-500)/5000) * Math.random(),
-        "pewd.demand": -10,
-				"mark.value": result[0].mark.value * ((result[0].mark.demand-500)/5000) * Math.random(),
-        "mark.demand": -10,
-				"jack.value": result[0].jack.value * ((result[0].jack.demand-500)/5000) * Math.random(),
-        "jack.demand": -10,
-				"fart.value": result[0].fart.value * ((result[0].fart.demand-500)/5000) * Math.random(),
-        "fart.demand": -10,
-				"robb.value": result[0].robb.value * ((result[0].robb.demand-500)/5000) * Math.random(),
-        "robb.demand": -10,
+				"doge.value": result[0].doge.value * ((result[0].doge.demand - 500) / 5000) * Math.random(),
+				"doge.demand": -10,
+				"amog.value": result[0].amog.value * ((result[0].amog.demand - 500) / 5000) * Math.random(),
+				"amog.demand": -10,
+				"pewd.value": result[0].pewd.value * ((result[0].pewd.demand - 500) / 5000) * Math.random(),
+				"pewd.demand": -10,
+				"mark.value": result[0].mark.value * ((result[0].mark.demand - 500) / 5000) * Math.random(),
+				"mark.demand": -10,
+				"jack.value": result[0].jack.value * ((result[0].jack.demand - 500) / 5000) * Math.random(),
+				"jack.demand": -10,
+				"fart.value": result[0].fart.value * ((result[0].fart.demand - 500) / 5000) * Math.random(),
+				"fart.demand": -10,
+				"robb.value": result[0].robb.value * ((result[0].robb.demand - 500) / 5000) * Math.random(),
+				"robb.demand": -10,
 			}
 		}
-    return dbo.collection("economy").updateOne(query, updateDocument);
+		return dbo.collection("economy").updateOne(query, updateDocument);
 	})
 }
 
@@ -129,7 +129,7 @@ function stockUpdate(){
 	var rand = Math.round(Math.random() * (500000 - 250000)) + 250000;
 	setTimeout(function() {
 		cryptoMine();
-    stockUpdate();
+		stockUpdate();
 		loop();
 	}, rand);
 	console.log("a block has been mined")
@@ -148,6 +148,28 @@ client.on('message', async function(msg) {
 
 	const command = client.commands.get(commandName);
 
+	const { cooldowns } = client;
+
+	if (!cooldowns.has(command.name)) {
+		cooldowns.set(command.name, new Discord.Collection());
+	}
+
+	const now = Date.now();
+	const timestamps = cooldowns.get(command.name);
+	const cooldownAmount = (command.cooldown || 3) * 1000;
+
+	if (timestamps.has(msg.author.id)) {
+		const expirationTime = timestamps.get(msg.author.id) + cooldownAmount;
+
+		if (now < expirationTime) {
+			const timeLeft = (expirationTime - now);
+			return msg.reply(`please wait ${humanizeDuration(timeLeft)} before reusing \`${command.name}\``);
+		}
+	}
+	timestamps.set(msg.author.id, now);
+	setTimeout(() => timestamps.delete(msg.author.id), cooldownAmount);
+
+
 	try {
 		command.execute(msg, dbClient, args);
 	} catch (error) {
@@ -165,25 +187,25 @@ const app = express()
 const webhook = new Topgg.Webhook("d56VME40aC")
 
 app.post("/dblwebhook", webhook.listener(vote => {
-  console.log(`${vote.user} has voted.`);
-  var dbo = dbClient.db("economy");
-  var query = { id: `${vote.user}` };
-  dbo.collection("economy").find(query).toArray(function(err, result) {
-    if (result.length == 0){
-      return;
-    } else {
-      const updateDocument = {
-        $inc: {
-          balance: (result[0].balance+100)*0.05
-        },
-      };
-      dbo.collection("economy").updateOne(query, updateDocument, function(err, res) {
-        if (err) throw err;
-        let voter = vote.user();
-        client.users.cache.get(vote.user.id).send(`Thank you for voting. You have recieved $${(result[0].balance+100)*0.05}. Vote again in 12 hours to recieve your next reward.`);
-      })
-    }
-  })
+	console.log(`${vote.user} has voted.`);
+	var dbo = dbClient.db("economy");
+	var query = { id: `${vote.user}` };
+	dbo.collection("economy").find(query).toArray(function(err, result) {
+		if (result.length == 0) {
+			return;
+		} else {
+			const updateDocument = {
+				$inc: {
+					balance: (result[0].balance + 100) * 0.05
+				},
+			};
+			dbo.collection("economy").updateOne(query, updateDocument, function(err, res) {
+				if (err) throw err;
+				let voter = vote.user();
+				client.users.cache.get(vote.user.id).send(`Thank you for voting. You have recieved $${(result[0].balance + 100) * 0.05}. Vote again in 12 hours to recieve your next reward.`);
+			})
+		}
+	})
 }))
 
 app.listen(8080)

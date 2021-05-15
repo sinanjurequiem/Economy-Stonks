@@ -1,0 +1,36 @@
+fill in the blanks minigame
+
+themes
+input: sentences
+time limit = 15 seconds
+multiplayer: first to answer wins
+
+user start minigame
+minigame displays introduction (number of rounds, points to win)
+
+input = [questions]
+question = {
+  prompt: "an ____ of a question"
+  correct: "example"
+}
+
+rounds:
+
+game_owner = user.id
+while(keep_playing)
+{
+  display question with missing word
+  while(answer != correct)
+  {
+    if correct then end game
+      reward user with coins relative to their level and number of incorrect answers
+    if incorrect then say wrong answer
+      wait for right answer
+    if input == quit && user.id == game_owner
+      keep_playing = false
+      break
+    if timer runs out
+      no one gets anything
+      break
+  }
+}
