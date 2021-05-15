@@ -162,8 +162,8 @@ client.on('message', async function(msg) {
 		const expirationTime = timestamps.get(msg.author.id) + cooldownAmount;
 
 		if (now < expirationTime) {
-			const timeLeft = (expirationTime - now) / 1000;
-			return msg.reply(`please wait ${timeLeft.toFixed(1)} more second(s) before reusing \`${command.name}\``);
+			const timeLeft = (expirationTime - now);
+			return msg.reply(`please wait ${humanizeDuration(timeLeft)} before reusing \`${command.name}\``);
 		}
 	}
 	timestamps.set(msg.author.id, now);
