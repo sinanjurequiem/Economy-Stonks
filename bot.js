@@ -98,30 +98,20 @@ function cryptoMine() {
 //stonks update function
 function stockUpdate() {
 	var dbo = dbClient.db("economy");
-	var query = ({ bank: "1" });
-	dbo.collection("economy").find(query).toArray(function(err, result) {
+	dbo.collection("bank").find({}).toArray().then(function(result, err) {
 		if (err) throw err;
-		var stockList = result[0]
-		const updateDocument = {
-			$inc: {
-				"doge.value": result[0].doge.value * ((result[0].doge.demand - 500) / 5000) * Math.random(),
-				"doge.demand": -10,
-				"amog.value": result[0].amog.value * ((result[0].amog.demand - 500) / 5000) * Math.random(),
-				"amog.demand": -10,
-				"pewd.value": result[0].pewd.value * ((result[0].pewd.demand - 500) / 5000) * Math.random(),
-				"pewd.demand": -10,
-				"mark.value": result[0].mark.value * ((result[0].mark.demand - 500) / 5000) * Math.random(),
-				"mark.demand": -10,
-				"jack.value": result[0].jack.value * ((result[0].jack.demand - 500) / 5000) * Math.random(),
-				"jack.demand": -10,
-				"fart.value": result[0].fart.value * ((result[0].fart.demand - 500) / 5000) * Math.random(),
-				"fart.demand": -10,
-				"robb.value": result[0].robb.value * ((result[0].robb.demand - 500) / 5000) * Math.random(),
-				"robb.demand": -10,
-			}
-		}
-		return dbo.collection("economy").updateOne(query, updateDocument);
-	})
+    for (var i = 0; i < result.length; i++) {
+      var query = {name: `${result[i].name}`}
+      console.log(result[i].name);
+      const updateDocument = {
+        $inc: {
+          value: result[i].value * ((result[i].demand) / 1000),
+          demand: -(1/2)*result[i].demand,
+        }
+      }
+		  dbo.collection("bank").updateOne(query, updateDocument);
+    }
+	}).catch(err => {console.log(err)});
 }
 
 //loop for stuff

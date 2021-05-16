@@ -18,8 +18,8 @@ module.exports = {
 					{ name: "`$leaderboard`", value: "show the 10 people around the world with the highest bank balance"},
 					{ name: "`$buyminer`", value: "buy or upgrade your crypto miner. crypto miners allow you to generate income while afk."},
 					{ name: "`$shop`", value: "see the stonks on sale."},
-					{ name: "`$buystonks`", value: "$buystonks <qty> <first 4 letters of stock>"},
-					{ name: "`$sellstonks`", value: "sell stonks. for usage, check the entry for buystonks."},
+					{ name: "`$buystonks`", value: "$buystonks <qty> <ticker>"},
+					{ name: "`$sellstonks`", value: "$sellstonks <qty> <ticker>"},
 					{ name: "`$help`", value: "what do you think you're looking at?"},
 					{ name: "`$patreon`", value: "donate on patreon. everything donated goes toward keeping the bot running."},
 					{ name: "`$blanks`", value: "do a fill in the blanks game. no, we aren't copying dank memer."}

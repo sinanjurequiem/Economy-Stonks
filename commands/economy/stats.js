@@ -65,13 +65,13 @@ module.exports = {
             .setTitle(`${taggedUser.username}'s Stonks`)
             .setDescription(`these are your *stonks*. their value will fluctuate, so buy and sell these as much as you can.`)
             .addFields(
-              {name: "Doge Space Inc", value: `${result[0].stock.doge.quantity} shares (avg $${result[0].stock.doge.avgPrice.toFixed(2)})`},
-              {name: "Amogus Drip", value: `${result[0].stock.amog.quantity} shares (avg $${result[0].stock.amog.avgPrice.toFixed(2)})`},
-              {name: "PewDiePie Memes Ltd", value: `${result[0].stock.pewd.quantity} shares (avg $${result[0].stock.pewd.avgPrice.toFixed(2)})`},
-              {name: "Markiplier's FNAF Monopoly", value: `${result[0].stock.mark.quantity} shares (avg $${result[0].stock.mark.avgPrice.toFixed(2)})`},
-              {name: "Jack's Septic Tanks", value: `${result[0].stock.jack.quantity} shares (avg $${result[0].stock.jack.avgPrice.toFixed(2)})`},
-              {name: "Fartnite by TerribleGames™", value: `${result[0].stock.fart.quantity} shares (avg $${result[0].stock.fart.avgPrice.toFixed(2)})`},
-              {name: "Rob Blocks by Builderman Unlimited", value: `${result[0].stock.robb.quantity} shares (avg $${result[0].stock.robb.avgPrice.toFixed(2)})`}
+              {name: "Doge Space Inc", value: `${result[0].stock.dgs.quantity} shares (avg $${result[0].stock.dgs.avgPrice.toFixed(2)})`},
+              {name: "Amogus Drip", value: `${result[0].stock.adp.quantity} shares (avg $${result[0].stock.adp.avgPrice.toFixed(2)})`},
+              {name: "PewDiePie Memes Ltd", value: `${result[0].stock.pdp.quantity} shares (avg $${result[0].stock.pdp.avgPrice.toFixed(2)})`},
+              {name: "Markiplier's FNAF Monopoly", value: `${result[0].stock.mkp.quantity} shares (avg $${result[0].stock.mkp.avgPrice.toFixed(2)})`},
+              {name: "Jack's Septic Tanks", value: `${result[0].stock.jst.quantity} shares (avg $${result[0].stock.jst.avgPrice.toFixed(2)})`},
+              {name: "Fartnite by TerribleGames™", value: `${result[0].stock.ftg.quantity} shares (avg $${result[0].stock.ftg.avgPrice.toFixed(2)})`},
+              {name: "Rob Blocks by Builderman Unlimited", value: `${result[0].stock.rbk.quantity} shares (avg $${result[0].stock.rbk.avgPrice.toFixed(2)})`}
             )
             msg.reply(stonksStatsEmbed)
         }

@@ -4,7 +4,7 @@ module.exports = {
 	name: "sellstonks",
 	description: "sell stonks",
 	args: true,
-	usage: "<number of stonks> <first 4 letters of the stonk you want to sell (e.g doge, amog)>",
+	usage: "<quantity> <ticker>",
 	execute(msg, dbClient, args){
 		var amount = parseInt(args[0]);
 		var stockName = args[1];
@@ -18,13 +18,13 @@ module.exports = {
 		}
 
     var dbo = dbClient.db("economy");
-    var query = { bank: `1`};
+    var query = {ticker:stockName};
     var userQuery = { id: `${msg.author.id}` };
 
     dbo.collection("economy").find(userQuery).toArray().then(function(userResult) {
 
       if (!(stockName in userResult[0].stock)){
-        msg.reply("Stonk does not exist, please enter a valid stonk. Format: $sellstonks <amount> <first 4 letters of stonk>");
+        msg.reply("Stonk does not exist, please enter a valid stonk. Format: $sellstonks <amount> <ticker>");
         throw err;
       }
       if (amount > userResult[0].stock[stockName].quantity){
@@ -32,17 +32,17 @@ module.exports = {
         throw err;
       }
 
-      return dbo.collection("economy").find(query).toArray();
+      return dbo.collection("bank").find(query).toArray();
     }).then(function(result){
-		  price = result[0][stockName].value;
-      totalQuantity = result[0][stockName].totalQuantity;
-      demand = result[0][stockName].demand;
+		  price = result[0].value;
+      totalQuantity = result[0].totalQuantity;
+      demand = result[0].demand;
 
       const updateDocument =  {
         $inc: {
-          [stockName + ".quantity"]: amount,
-          [stockName + ".demand"]: -(amount/totalQuantity)*(1000-demand)*(demand*2/1000),
-          [stockName + ".value"]: -price * (amount / totalQuantity) * (demand/500) * Math.random() * 2
+          quantity: amount,
+          demand: -(amount/totalQuantity)*(1000-demand),
+          // [stockName + ".value"]: -price * (amount / totalQuantity) * (demand/500) * Math.random() * 2
         },
       };
 
@@ -55,11 +55,11 @@ module.exports = {
           balance: amount*price
         }
       }
-      console.log(`${msg.author.username} sold ${amount} ${stockName} at $${helper.formatNumber(price.toFixed(2))}`);
+      console.log(`${msg.author.username} sold ${amount} ${stockName} at $${helper.formatNumber(price.toFixed(3))}`);
       dbo.collection("economy").updateOne(userQuery, updateDocumentUser);
     }).then(function(updateUserResult, err){
       if (err) throw err;
-      msg.reply(`you have sold ${amount} ${stockName} for $${helper.formatNumber(price.toFixed(10)*amount)}.`)
+      msg.reply(`you have sold ${amount} ${stockName} for $${helper.formatNumber((price*amount).toFixed(3))}.`)
     }).catch(err => {console.log(err)});
 	}
 }
