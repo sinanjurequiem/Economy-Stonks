@@ -46,7 +46,7 @@ module.exports = {
         },
       };
 
-      return dbo.collection("economy").updateOne(query, updateDocument);
+      return dbo.collection("bank").updateOne(query, updateDocument);
     }).then(function(updateResult, err) {
       if (err) throw err;
       const updateDocumentUser = {
