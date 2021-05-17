@@ -102,7 +102,6 @@ function stockUpdate() {
 		if (err) throw err;
     for (var i = 0; i < result.length; i++) {
       var query = {name: `${result[i].name}`}
-      console.log(result[i].name);
       const updateDocument = {
         $inc: {
           value: result[i].value * ((result[i].demand) / 1000),
