@@ -46,6 +46,7 @@ module.exports = {
           // give rewards
           return dbo.collection("economy").updateOne(queryAnswerer, updateDocument);
         } else {
+          console.log(`${collected.size-1} answers, ${msg.author.username}'s game`);
           msg.channel.send(`**GAME OVER**\n The correct answer was: ${item.correct_answer}`);
         }
       });
