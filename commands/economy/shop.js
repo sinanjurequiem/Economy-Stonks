@@ -8,7 +8,6 @@ module.exports = {
 
     var dbo = dbClient.db("economy");
     dbo.collection("bank").find({}).toArray(function(err, result) {
-      console.log(result)
       var shopEmbed = new Discord.MessageEmbed()
         .setTitle("Shop")
         .setDescription("this is the stonks market. go buy some stonks.")
