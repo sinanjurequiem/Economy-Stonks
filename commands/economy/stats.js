@@ -15,8 +15,15 @@ module.exports = {
       var queryAll = {};
       var rank = 1;
       var totalUsers;
+      var bank;
 
-      dbo.collection("economy").find(queryAll).toArray().then(function(result, err) {
+      dbo.collection("bank").find(queryAll).toArray().then(function(result, err) {
+        if(result.length == 0){
+          throw "bank query all returned empty list"
+        }
+        bank = result;
+        return dbo.collection("economy").find(queryAll).toArray();
+      }).then(function(result, err) {
         var balance;
         for (var i = 0; i < result.length; i++) {
           if (result[i].id == msg.author.id) {
@@ -64,16 +71,13 @@ module.exports = {
           var stonksStatsEmbed = new Discord.MessageEmbed()
             .setTitle(`${taggedUser.username}'s Stonks`)
             .setDescription(`these are your *stonks*. their value will fluctuate, so buy and sell these as much as you can.`)
-            .addFields(
-              {name: "Doge Space Inc", value: `${result[0].stock.dgs.quantity} shares (avg $${result[0].stock.dgs.avgPrice.toFixed(2)})`},
-              {name: "Amogus Drip", value: `${result[0].stock.adp.quantity} shares (avg $${result[0].stock.adp.avgPrice.toFixed(2)})`},
-              {name: "PewDiePie Memes Ltd", value: `${result[0].stock.pdp.quantity} shares (avg $${result[0].stock.pdp.avgPrice.toFixed(2)})`},
-              {name: "Markiplier's FNAF Monopoly", value: `${result[0].stock.mkp.quantity} shares (avg $${result[0].stock.mkp.avgPrice.toFixed(2)})`},
-              {name: "Jack's Septic Tanks", value: `${result[0].stock.jst.quantity} shares (avg $${result[0].stock.jst.avgPrice.toFixed(2)})`},
-              {name: "Fartnite by TerribleGames™", value: `${result[0].stock.ftg.quantity} shares (avg $${result[0].stock.ftg.avgPrice.toFixed(2)})`},
-              {name: "Rob Blocks by Builderman Unlimited", value: `${result[0].stock.rbk.quantity} shares (avg $${result[0].stock.rbk.avgPrice.toFixed(2)})`}
-            )
-            msg.reply(stonksStatsEmbed)
+
+          for (var i = 0; i < bank.length; i++){
+            var ticker = bank[i].ticker
+            var plural = result[0].stock[`${ticker}`].quantity == 1 ? 0 : 1;
+            stonksStatsEmbed.addField(`${bank[i].name} [${bank[i].ticker.toUpperCase()}]`, `${result[0].stock[`${ticker}`].quantity} share${plural?"s":""} (avg $${helper.formatNumber(result[0].stock[`${ticker}`].avgPrice.toFixed(2))})`)
+          }
+          msg.reply(stonksStatsEmbed)
         }
       }).catch(err => {console.log(err)});
     }
