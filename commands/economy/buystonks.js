@@ -24,7 +24,7 @@ module.exports = {
     var userQuery = { id: `${msg.author.id}` };
 
     dbo.collection("bank").find(query).toArray().then(function(result, err) {
-      if (err){
+      if (result.length == 0){
         msg.reply("Stonk does not exist, please enter a valid stonk.");
         throw err;
       }
