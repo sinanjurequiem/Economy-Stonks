@@ -121,7 +121,7 @@ function stockUpdate() {
 		stockUpdate();
 		loop();
 	}, rand);
-	console.log("a block has been mined")
+	// console.log("a block has been mined")
 }());
 
 //command handler
@@ -136,6 +136,8 @@ client.on('message', async function(msg) {
 	if (!client.commands.has(commandName)) return;
 
 	const command = client.commands.get(commandName);
+
+  console.log(`${msg.author.username} ${msg.content}`)
 
 	const { cooldowns } = client;
 
@@ -152,6 +154,7 @@ client.on('message', async function(msg) {
 
 		if (now < expirationTime) {
 			const timeLeft = (expirationTime - now);
+      console.log(`${msg.author.username} please wait ${humanizeDuration(timeLeft)} before reusing \`${command.name}\``)
 			return msg.reply(`please wait ${humanizeDuration(timeLeft)} before reusing \`${command.name}\``);
 		}
 	}
