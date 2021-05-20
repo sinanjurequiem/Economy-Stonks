@@ -13,31 +13,31 @@ module.exports = {
           username: `${msg.author.username}`,
 
           stock: {
-            doge: {
+            dgs: {
               quantity: 0,
               avgPrice: 0
             },
-            amog: {
+            adp: {
               quantity: 0,
               avgPrice: 0
             },
-            pewd: {
+            pdp: {
               quantity: 0,
               avgPrice: 0
             },
-            mark: {
+            mkp: {
               quantity: 0,
               avgPrice: 0
             },
-            jack: {
+            jst: {
               quantity: 0,
               avgPrice: 0
             },
-            fart: {
+            ftg: {
               quantity: 0,
               avgPrice: 0
             },
-            robb: {
+            rbk: {
               quantity: 0,
               avgPrice: 0
             }
