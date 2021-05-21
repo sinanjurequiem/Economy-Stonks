@@ -8,7 +8,7 @@ module.exports = {
 	
 	execute(msg, dbClient, args){
 		var amount = parseInt(args[0]);
-		var stockName = args[1];
+		var stockName = args[1].toLowerCase();
     var price;
     var totalQuantity;
     var demand;
@@ -69,7 +69,7 @@ module.exports = {
       dbo.collection("economy").updateOne(userQuery, updateDocumentUser);
     }).then(function(updateUserResult, err){
       if (err) throw err;
-      msg.reply(`you have bought ${amount} ${stockName} for $${helper.formatNumber((price*amount).toFixed(3))}.`)
+      msg.reply(`you have bought ${amount} ${stockName.toUpperCase()} for $${helper.formatNumber((price*amount).toFixed(3))}.`)
     }).catch(err => {console.log(err)});
 	}
 }
