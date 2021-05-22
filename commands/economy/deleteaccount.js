@@ -17,17 +17,17 @@ module.exports = {
         const filter = m => msg.author.id === m.author.id;
 
         msg.channel.awaitMessages(filter, { time: 6000, max: 1, errors: ['time'] })
-          .then(messages => {
-            if (messages.first().content.toLowerCase() == "confirm"){
-              msg.reply(`You have deleted your account.`);
-              return dbo.collection("economy").deleteOne(query);
-            } else {
-              msg.channel.send("you have not deleted your account.")
-            }
-          })
-          .catch(() => {
-            msg.channel.send('Error 408: Connection timed out. You have not deleted your account.');
-          });
+        .then(messages => {
+          if (messages.first().content.toLowerCase() == "confirm"){
+            msg.reply(`You have deleted your account.`);
+            return dbo.collection("economy").deleteOne(query);
+          } else {
+            msg.channel.send("you have not deleted your account.")
+          }
+        })
+        .catch(() => {
+          msg.channel.send('Error 408: Connection timed out. You have not deleted your account.');
+        });
       });
     }).catch(err => {console.log(err)});
   }
