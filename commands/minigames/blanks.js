@@ -1,8 +1,17 @@
 const Discord = require('discord.js');
 
+function shuffleArray(array) {
+    for (var i = array.length - 1; i > 0; i--) {
+        var j = Math.floor(Math.random() * (i + 1));
+        var temp = array[i];
+        array[i] = array[j];
+        array[j] = temp;
+    }
+}
+
 module.exports = {
-	name:"blanks",
-	desc:"fill in the blanks minigame",
+	name:"trivia",
+	desc:"trivia minigame",
 	execute(msg, dbClient, args){
 		var dbo = dbClient.db("economy");
     var query = { id: `${msg.author.id}` };
@@ -20,35 +29,39 @@ module.exports = {
       var correctAuthor;
       var correctAnswer = false;
 
-      msg.channel.send(`**GAME START: 10 seconds to guess**\n ${item.question}`);
-      const collector = msg.channel.createMessageCollector(() => {return true}, { time: 10000 });
+      // msg.channel.send(`**GAME START: 10 seconds to guess**\n ${item.question}`);
+      var answers = item.incorrect_answers;
+      answers.push(item.correct_answer);
+      shuffleArray(answers);
+      
+      var question = new Discord.MessageEmbed()
+        .setTitle(`${msg.author.username} 10 seconds to guess\n${item.question}`)
 
-      collector.on('collect', m => {
-        if (item.correct_answer.toLowerCase() === m.content.toLowerCase()) {
-          correctAuthor = msg.author;
-          correctAnswer = true;
-          collector.stop();
-        }
-      });
+      for (var i = 0; i < answers.length; i++) {
+        question.addField(`${i}`, `${answers[i]}`)
+      }
+      msg.channel.send(question).then(() => {
+        const filter = m => msg.author.id === m.author.id;
 
-      collector.on('end', collected => {
-        if (correctAnswer) {
-          var reward = Math.max(100-((collected.filter(message => message.author.id == correctAuthor.id).size)-1)*5, 50)
-          console.log(`${collected.size-1} answers, ${correctAuthor.username} wins`)
-          msg.channel.send(`**${correctAuthor.username}**, correct answer. You win $${reward}`);
-          var queryAnswerer = { id: `${correctAuthor.id}` };
-          var updateDocument = {
-            $inc:  {
-              balance: reward
+        msg.channel.awaitMessages(filter, { time: 10000, max: 1, errors: ['time'] })
+        .then(m => {
+          console.log(`${m.first().content} ${answers[parseInt(m.first().content)]}`)
+          if (item.correct_answer === answers[parseInt(m.first().content)]) {
+            var reward = 100
+            console.log(`${msg.author.username} wins`)
+            msg.reply(`correct answer. You win $${reward}`);
+            var updateDocument = {
+              $inc:  {
+                balance: reward
+              }
             }
+            // give rewards
+            return dbo.collection("economy").updateOne(query, updateDocument);
+          } else {
+            console.log(`${msg.author.username}' loses`);
+            msg.channel.send(`**GAME OVER**\n The correct answer was: ${item.correct_answer}`);
           }
-
-          // give rewards
-          return dbo.collection("economy").updateOne(queryAnswerer, updateDocument);
-        } else {
-          console.log(`${collected.size-1} answers, ${msg.author.username}'s game`);
-          msg.channel.send(`**GAME OVER**\n The correct answer was: ${item.correct_answer}`);
-        }
+        });
       });
     }).catch(err => {console.log(err)});
 	}
