@@ -42,7 +42,8 @@ module.exports = {
               avgPrice: 0
             }
           },
-
+          thievery: 1,
+          security: 1,
           rig: 0,
           pool: 0
         };
