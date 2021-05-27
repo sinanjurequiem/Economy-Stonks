@@ -126,7 +126,12 @@ function stockUpdate() {
 
 //command handler
 client.on('message', async function(msg) {
-	const prefix = await dashboard.getVal(msg.guild.id, "prefix");
+  var prefix;
+	try {
+    prefix = await dashboard.getVal(msg.guild.id, "prefix");
+  } catch (err) {
+    prefix = '$';
+  }
 
 	if (!msg.content.startsWith(prefix) || msg.author.bot) return;
 
