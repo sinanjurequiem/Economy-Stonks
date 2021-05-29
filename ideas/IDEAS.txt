@@ -1,3 +1,21 @@
+TODO
+webhooks for vote rewards
+- set up web server
+sometime in future: add pets aaaaaaaaaaa{
+	bonuses when robbing
+	bonus to defense
+	will find stuff for you
+	generates passive DEBT, HA YOU THOUGHT I'D SAY INCOME
+}
+remove stocks total quantity, hide available quantity
+website (https://www.npmjs.com/package/@top-gg/sdk)
+upgrade security
+robbing
+- add descriminator
+notifications command
+dynamic help command
+update username with stats command
+
 Level Up:
 requirements:
 -be active in server
@@ -9,7 +27,7 @@ rank 1:
 - Voting
 
 rank 2:
-- minigame 1
+blanka
 
 - stock market
 

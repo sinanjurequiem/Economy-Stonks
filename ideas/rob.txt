@@ -1,0 +1,17 @@
+ROBBERY
+
+security level
+thievery skill level
+community thievery
+
+chance of failure (risk paying penalty)
+
+rob <player>
+robber's balance [B]: needs to be >100
+target's balance [T]:
+reward [R]: max(0.2T, 5B)
+penalty [P]: min(B, 2R)
+
+target security level [L]:
+thievery level [X]:
+success rate [S]: X/(X+L)

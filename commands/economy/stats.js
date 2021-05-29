@@ -70,12 +70,17 @@ module.exports = {
 
           var stonksStatsEmbed = new Discord.MessageEmbed()
             .setTitle(`${taggedUser.username}'s Stonks`)
-            .setDescription(`these are your *stonks*. their value will fluctuate, so buy and sell these as much as you can.`)
+            .setDescription(`Stock, price, total value, total return`)
 
           for (var i = 0; i < bank.length; i++){
             var ticker = bank[i].ticker
-            var plural = result[0].stock[`${ticker}`].quantity == 1 ? 0 : 1;
-            stonksStatsEmbed.addField(`${bank[i].name} [${bank[i].ticker.toUpperCase()}]`, `${result[0].stock[`${ticker}`].quantity} share${plural?"s":""} (avg $${helper.formatNumber(result[0].stock[`${ticker}`].avgPrice.toFixed(2))})`)
+            var curPrice = bank[i].value
+            var userStock = result[0].stock[`${ticker}`]
+            var plural = userStock.quantity == 1 ? 0 : 1;
+            var stockReturn = userStock.avgPrice == 0 ? 0 : (curPrice-userStock.avgPrice)
+            var gain = userStock.avgPrice == 0 ? 0 : ((stockReturn)/userStock.avgPrice).toFixed(2)
+
+            stonksStatsEmbed.addField(`[${ticker.toUpperCase()}] $${helper.formatNumber(curPrice.toFixed(2))}, $${helper.formatNumber((curPrice*userStock.quantity).toFixed(2))}, $${helper.formatNumber(stockReturn.toFixed(2))}`, `${bank[i].name} ${userStock.quantity} share${plural?"s":""} ${gain}%`)
           }
           msg.reply(stonksStatsEmbed)
         }

@@ -1,0 +1,115 @@
+every player has a pet
+
+5 kinds of pet
+-goldfish
+-hamster
+-tiger
+-dog
+-jelly boi
+
+
+BONUSES
+
+
+cryptomining
+robbing +150 (+30)
+security
+hacking
+
+DEBT
+
+
+$pet
+list the pets you have, active pet, pets you don't have, pet descriptions list bonuses
+
+$pet buy <animal>
+buy a pet
+
+$pet upgrade <>
+
+$pet <animal>
+set active pet
+
+passive pets
+- passive bonuses
+- partial upkeep
+
+active pet
+- passive upkeep
+- active bonus
+
+pets
+- passive bonus (partial multiplier)
+- active bonus (multiplier)
+- upkeep price (-$/hour)
+
+
+user
+pets: {
+  "goldfish": 0,
+  "hamster": 0,
+  "cat": 1,
+  "dog": 0,
+  "jelly boi": 0,
+}
+
+pets collection
+
+[
+  {
+    "name": "cat"
+    "levels": [
+        kitten,
+        street cat,
+        house cat,
+        jungle cat,
+				small jaguar,
+				jaguar
+      ],
+    "description": "robbing bonus",
+    "base_price": 100,
+    "base_bonux": 5,
+    "base_upkeep": 20
+  },
+  {
+    
+  },
+	{
+		"name": "jelly boi",
+		"levels":[
+			smol jelly,
+			jelly,
+			big jelly,
+			frog jelly,
+			big frog jelly,
+			cthulu, destroyer of worlds
+		]
+	}
+]
+
+
+$pet
+
+var pets = []
+dbo.collection(economy).find({user})
+{
+  pets = result[0].pets
+  {"cat": 1}
+  return dbo.collection(pets).find(all)
+}.then (function (result) {
+  // owned pets
+  message = new Discord.MessageEmbed()
+  for (var i = 0; i < result.length; i++){
+    var name = result[i]["name"]
+    if pets[name] >= 0:
+      message.addField(result[i]["levels"][pets[name]], pets["active"] == name ? "active" : "");
+  }
+	
+})
+
+if (args[0] === "store") {
+	  message = new Discord.MessageEmbed
+  for (var i = 0; i < result.length; i++){
+    var name = result[i]["name"]:
+    message.addField(result[i]["levels"][pets[name]+1]);
+}

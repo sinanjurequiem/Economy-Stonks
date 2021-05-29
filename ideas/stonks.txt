@@ -1,0 +1,6 @@
+stonks curve explained
+
+buy/sell increases/decreases demand proportional to quantity out of total quantity
+value increases/decreases proportional to demand
+
+demand decays to 0 exponentially

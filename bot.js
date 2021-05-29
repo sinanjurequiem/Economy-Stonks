@@ -39,19 +39,10 @@ client.login(config.token);
 
 //client on login
 client.on('ready', async () => {
-	let servers = await client.guilds.cache.size;
-	let channels = await client.channels.cache.size;
-	let users = await client.users.cache.size;
 	dashboard = new botdash.APIclient(config.botdashtoken);
-	console.log(`Bot is ready. (${servers} Guilds - ${channels} Channels - ${users} Users)`);
-	setInterval(function() {
-		servers = client.guilds.cache.size;
-		channels = client.channels.cache.size;
-		users = client.users.cache.size;
-		client.user.setActivity(` ${servers} servers, ${channels} channels, and ${users} 			users. I see you all. hehehehehehehehehehehe`, {
-			type: 'WATCHING'
-		})
-	}, 5000)
+	client.user.setActivity(`stonks go brrr`, {
+		type: 'WATCHING'
+	})
 });
 
 
@@ -186,29 +177,16 @@ client.on('message', async function(msg) {
 //top.gg voting stuff
 const Topgg = require("@top-gg/sdk")
 const express = require("express")
+
 const app = express()
+
 const webhook = new Topgg.Webhook("d56VME40aC")
 
 app.post("/dblwebhook", webhook.listener(vote => {
-	console.log(`${vote.user} has voted.`);
-	var dbo = dbClient.db("economy");
-	var query = { id: `${vote.user}` };
-	dbo.collection("economy").find(query).toArray(function(err, result) {
-		if (result.length == 0) {
-			return;
-		} else {
-			const updateDocument = {
-				$inc: {
-					balance: (result[0].balance + 100) * 0.05
-				},
-			};
-			dbo.collection("economy").updateOne(query, updateDocument, function(err, res) {
-				if (err) throw err;
-				let voter = vote.user();
-				client.users.cache.get(vote.user.id).send(`Thank you for voting. You have recieved $${(result[0].balance + 100) * 0.05}. Vote again in 12 hours to recieve your next reward.`);
-			})
-		}
-	})
+  // vote will be your vote object, e.g
+  console.log(vote.user) // 395526710101278721 < user who voted\
+  
+  // You can also throw an error to the listener callback in order to resend the webhook after a few seconds
 }))
 
-app.listen(8080)
+app.listen(80)
