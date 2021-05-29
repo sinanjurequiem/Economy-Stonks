@@ -3,12 +3,9 @@ const Discord = require('discord.js');
 const config = require('../../configuration/config.json');
 var helper = require('../../helpers.js');
 
-import { CanvasTable, CTConfig } from "canvas-table";
-
-
 module.exports = {
 	name: "image",
-	description: "test node-html-to-image"
+	description: "test canvas"
 }
 module.exports.execute = async function (msg, dbClient, args) {
     const canvas = Canvas.createCanvas(700, 250);
