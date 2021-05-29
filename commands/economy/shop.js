@@ -13,7 +13,9 @@ module.exports = {
         .setDescription("this is the stonks market. go buy some stonks.")
 
       for (var i = 0; i < result.length; i++){
-        shopEmbed.addField(`${result[i].name} [${result[i].ticker.toUpperCase()}]`, `Quantity: ${result[i].quantity}/${result[i].totalQuantity} in stock. Value is $${helper.formatNumber(result[i].value.toFixed(2))}`)
+        var oldest = result[i].history[result[i].history.length-1];
+        var change = (result[i].value - oldest)
+        shopEmbed.addField(`${result[i].name} [${result[i].ticker.toUpperCase()}] $${helper.formatNumber(result[i].value.toFixed(2))}`, `${helper.formatNumber(change.toFixed(2))} (${(change/oldest).toFixed(4)*100}%)`)
       }
       msg.reply(shopEmbed);
     });

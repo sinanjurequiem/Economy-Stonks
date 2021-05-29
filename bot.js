@@ -102,10 +102,16 @@ function stockUpdate() {
 		if (err) throw err;
     for (var i = 0; i < result.length; i++) {
       var query = {name: `${result[i].name}`}
+      var history = result[i].history;
+      history.splice(0,0,result[i].value);
+      history.pop();
       const updateDocument = {
         $inc: {
           value: result[i].value * ((result[i].demand) / 1000),
           demand: -(1/2)*result[i].demand,
+        },
+        $set: {
+          history: history,
         }
       }
 		  dbo.collection("bank").updateOne(query, updateDocument);
