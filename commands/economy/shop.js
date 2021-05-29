@@ -15,7 +15,8 @@ module.exports = {
       for (var i = 0; i < result.length; i++){
         var oldest = result[i].history[result[i].history.length-1];
         var change = (result[i].value - oldest)
-        shopEmbed.addField(`${result[i].name} [${result[i].ticker.toUpperCase()}] $${helper.formatNumber(result[i].value.toFixed(2))}`, `${helper.formatNumber(change.toFixed(2))} (${(change/oldest).toFixed(4)*100}%)`)
+        var sign = change > 0 ? 'Up' : 'Down'
+        shopEmbed.addField(`${result[i].name} [${result[i].ticker.toUpperCase()}] $${helper.formatNumber(result[i].value.toFixed(2))}`, `${sign} ${helper.formatNumber(change.toFixed(2))} (${helper.formatNumber((change*100/oldest).toFixed(2))}%)`)
       }
       msg.reply(shopEmbed);
     });
