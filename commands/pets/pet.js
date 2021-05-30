@@ -8,7 +8,7 @@ module.exports = {
 		var query = { id: `${msg.author.id}` };
 		var pets = [];
 		var balance;
-		dbo.collection("economy_test").find(query).toArray().then(function(result) {
+		dbo.collection("economy").find(query).toArray().then(function(result) {
 			balance = result[0]["balance"]
 			pets = result[0]["pets"]
 
@@ -72,7 +72,7 @@ module.exports = {
 								}
 								// update user document
 								msg.reply(`upgraded your ${animalName}!`)
-								return dbo.collection("economy_test").updateOne(query, updateDocument);
+								return dbo.collection("economy").updateOne(query, updateDocument);
 								// upgrade user's pets (calculate upgrade_cost, bonus, upkeep using level and base values)
 								// decrease user balance
 							} else {
