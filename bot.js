@@ -96,9 +96,11 @@ function stockUpdate() {
       var history = result[i].history;
       history.splice(0,0,result[i].value);
       history.pop();
+
+      var rand = Math.random() * 2 - 1;
       const updateDocument = {
         $inc: {
-          value: result[i].value * ((result[i].demand) / 1000),
+          value: (result[i].value * ((result[i].demand) / 1000)) + (0.01*result[i].value*rand),
           demand: -(1/2)*result[i].demand,
         },
         $set: {
