@@ -4,7 +4,7 @@ var helper = require('../../helpers.js');
 
 module.exports = {
 	name: "stats",
-	description: "get your stats",
+	description: "get your stats, including bank balance",
 	execute(msg, dbClient, args){
 		var taggedUser = msg.mentions.users.first();
 		if (!msg.mentions.users.size){

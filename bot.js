@@ -1,19 +1,11 @@
 //initial constants
 const Discord = require('discord.js');
+const helpers = require('./helpers.js');
+
 const client = new Discord.Client({ shardCount: 1 });
-client.commands = new Discord.Collection();
 client.cooldowns = new Discord.Collection();
-const fs = require("fs");
-var command;
-const commandFolders = fs.readdirSync('./commands');
-const commandFiles = fs.readdirSync('./commands').filter(file => file.endsWith('.js'));
-for (const folder of commandFolders) {
-	const commandFiles = fs.readdirSync(`./commands/${folder}`).filter(file => file.endsWith('.js'));
-	for (const file of commandFiles) {
-		command = require(`./commands/${folder}/${file}`);
-		client.commands.set(command.name, command);
-	}
-}
+client.commands = helpers.getCommands();
+
 const config = require('./configuration/config.json')
 const AutoPoster = require('topgg-autoposter')
 const ap = AutoPoster(config.topggtoken, client)

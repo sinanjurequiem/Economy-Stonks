@@ -2,7 +2,7 @@ const Discord = require('discord.js');
 
 module.exports = {
 	name: "rob",
-	description: "rob someone",
+	description: "rob a guy. don't ping them, just use their username. we designed this for maximum sneakiness.",
 	// cooldown: 120,
 	execute(msg, dbClient, args){
     var target;

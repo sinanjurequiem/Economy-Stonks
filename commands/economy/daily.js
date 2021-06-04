@@ -2,7 +2,7 @@ const humanizeDuration = require('humanize-duration')
 
 module.exports = {
 	name: "daily",
-	descripton: "daily paycheck",
+	description: "get your daily dose of internet. jk, get your daily paycheck.",
 	cooldown:86400,
 	execute(msg, dbClient, args) {
     var dbo = dbClient.db("economy");

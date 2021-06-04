@@ -2,7 +2,7 @@ const Discord = require('discord.js');
 
 module.exports = {
 	name: "pet",
-	descripton: "pets",
+	description: "[-] [store] [buy]",
 	execute(msg, dbClient, args) {
 		var dbo = dbClient.db("economy");
 		var query = { id: `${msg.author.id}` };
@@ -42,7 +42,7 @@ module.exports = {
 				msg.reply(message);
 			}
 
-			if (args[0] === "upgrade") {
+			if (args[0] === "buy") {
 				msg.channel.send('Please enter the pet you want to buy.').then(() => {
 					const filter = m => msg.author.id === m.author.id;
 					msg.channel.awaitMessages(filter, { time: 60000, max: 1, errors: ['time'] })

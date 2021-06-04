@@ -3,7 +3,7 @@ var helper = require('../../helpers.js');
 
 module.exports = {
 	name: "shop",
-	description: "show shop",
+	description: "see the stonks on sale",
 	execute(msg, dbClient, args){
 
     var dbo = dbClient.db("economy");

@@ -2,7 +2,7 @@ var helper = require('../../helpers.js');
 
 module.exports = {
 	name: "buyminer",
-	description: "upgrade equipment.",
+	description: "buy or upgrade your crypto miner. crypto miners allow you to generate income while afk.",
 	execute(msg, dbClient, args){
     var dbo = dbClient.db("economy");
     var query = { id: `${msg.author.id}` };

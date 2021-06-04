@@ -1,32 +1,22 @@
 const Discord = require('discord.js');
 const config = require('../../configuration/config.json');
 const { prefix } = require('../../bot.js')
+var { getCommands }= require('../../helpers.js')
+
+var commands = getCommands();
 
 module.exports = {
 	name: "help",
-	description: "commands list",
+	description: "what do you think you're looking at?",
 	execute(msg, args){
-		
-			var helpembed = new Discord.MessageEmbed()
-				.setTitle("Economy Help")
-				.addFields(
-					{ name: "`$start`", value: "open an account at the meme bank."},
-					{ name: "`$daily`", value: "get your daily dose of internet. jk, get your daily paycheck."},
-					{ name: "`$hourly`", value: "get your hourly dose of caffeine and work. YOU NEED MONEY, NO TIME FOR SLEEP."},
-					{ name: "`$vote`", value: "vote for the bot on top.gg and get rewards!"},
-					{ name: "`$stats`", value: "get your stats, including bank balance"},
-					{ name: "`$leaderboard`", value: "show the 10 people around the world with the highest bank balance"},
-					{ name: "`$buyminer`", value: "buy or upgrade your crypto miner. crypto miners allow you to generate income while afk."},
-					{ name: "`$shop`", value: "see the stonks on sale."},
-					{ name: "`$buystonks`", value: "$buystonks <qty> <ticker>"},
-					{ name: "`$sellstonks`", value: "$sellstonks <qty> <ticker>"},
-					{ name: "`$help`", value: "what do you think you're looking at?"},
-					{ name: "`$patreon`", value: "donate on patreon. everything donated goes toward keeping the bot running."},
-					{ name: "`$trivia`", value: "do a trivia game. no, we aren't copying dank memer."},
-					{ name: "`$rob`", value: "rob a guy. don't ping them, just use their username. we designed this for maximum sneakiness."}
-				)
-				.setDescription(`yeah, i know. an economy is complicated. here's a list of my commands and their usage. btw my prefix is \`${prefix}\``)
+      var helpembed = new Discord.MessageEmbed()
+        .setTitle("Economy Help")
+        .setDescription(`yeah, i know. an economy is complicated. here's a list of my commands and their usage. btw my prefix is \`${prefix}\``)
+      for (entry of commands){
+        if (entry[0] != undefined)
+          helpembed.addField(entry[1].name, entry[1].description)
+      }
 
-			msg.reply(helpembed)
-	}
+      msg.reply(helpembed);
+  }
 }
