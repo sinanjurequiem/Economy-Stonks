@@ -4,7 +4,7 @@ var helper = require('../../helpers.js');
 module.exports = {
 	name: "rob",
 	description: "rob a guy. don't ping them, just use their username. we designed this for maximum sneakiness.",
-	// cooldown: 120,
+	cooldown: 300,
 	execute(msg, dbClient, args){
     var target;
     var player;

@@ -23,7 +23,8 @@ module.exports = {
 					var name = result[i]["name"]
 					var bonus = pets[name]["bonus"]
 					if (pets[name]["level"] >= 0) {
-						message.addField(`${result[i].name} ${pets["active"] == name ? "(active)" : "(inactive)"}`, `+${bonus}% ${result[i]["description"]}`);
+						// message.addField(`${result[i].name} ${pets["active"] == name ? "(active)" : "(inactive)"}`, `+${bonus}% ${result[i]["description"]}`);
+						message.addField(`${result[i].name}`, `+${bonus}% ${result[i]["description"]}`);
 					}
 				}
 				msg.reply(message)
