@@ -9,9 +9,63 @@ chance of failure (risk paying penalty)
 rob <player>
 robber's balance [B]: needs to be >100
 target's balance [T]:
-reward [R]: max(0.2T, 5B)
+reward [R]: max(0.2T, 5B) + aX - bL + dC
 penalty [P]: min(B, 2R)
 
 target security level [L]:
 thievery level [X]:
 success rate [S]: X/(X+L)
+
+on successful robbery:
+[X]+1
+else
+[X]-3
+
+[X] can be boosted using items or pets
+for example there can be a multiplier
+
+
+query for robber's balance
+if robber's balance < 300 {
+	no.
+}
+thievery_level = [X] + petmultiplier
+query for target
+if target's balance < 1000 {
+	no
+}
+security_level = [L] + petmultiplier
+
+
+do the randomizer thing
+if successful {
+	[X]+1
+	add moni
+} else {
+	[X]-3
+	remove moni
+	roll a d10, if it's a 1 you lose all money
+}
+
+Cb 0.6 + 1
+1.6
+
+
+OUTLINE:
+query target
+  target's balance [T]:
+  get target's dog bonus
+query robber
+  robber's balance [B]: needs to be >100
+  get robber cat bonus{
+		add multiplier to thievery_level
+	}
+	calculate if successful
+  S = X*(1+Cb)/(X*(1+Cb)+L*(1+Db))
+  calculate reward
+  R = (max(0.2T, 5B))*(1+Cb)/(1+Db)
+
+  if failure
+    X = min(X - 2, 1)
+update robber
+update target

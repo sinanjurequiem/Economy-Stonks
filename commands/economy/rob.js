@@ -9,6 +9,8 @@ module.exports = {
     var player;
 		var success;
     var playerBalInc, targetBalInc;
+		var playerPetBonus;
+		var targetPetBonus;
 
     // var mention = msg.mentions.users.first();
     targetUsername = args.join(' ');
@@ -34,6 +36,7 @@ module.exports = {
         throw err;
       }
       target = result[0];
+			targetPetBonus = result[0].pets.dog.bonus;
       console.log(target.username)
       // get player balance, thievery level
       return dbo.collection("economy").find(playerQuery).toArray();
@@ -43,34 +46,46 @@ module.exports = {
         msg.reply('please type $start to create an account first.');
         throw "no account";
       };
+			//   get robber cat bonus
       player = result[0];
+			playerPetBonus = result[0].pets.cat.bonus;
 
       // calculate if theft is successful
-    // success rate [S]: X/(X+L)
-      var probability = (player.thievery)/(player.thievery + target.security);
+      var probability = player.thievery*(1+playerPetBonus)/(player.thievery*(1+playerPetBonus)+target.security*(1+targetPetBonus))
       success = !!probability && Math.random() < probability;
 
-      var reward = Math.max(0.2*target.balance);
+      var unscaledReward = Math.max(0.2*target.balance, 5*player.balance)
+      var reward = (unscaledReward)*(1+playerPetBonus)/(1+targetPetBonus)
+      console.log(`Cb:${playerPetBonus} Db:${targetPetBonus}, Original reward:${Math.max(0.2*target.balance, 0.2*player.balance)} Reward:${reward}`);
+      // var reward = Math.max(0.2*target.balance);
       console.log(`p: ${probability}, s: ${success}`)
 
       if (success)
       {
         playerBalInc = reward;
+        targetBalInc = -1*Math.min(playerBalInc, target.balance);
 
         // send msg reply
-        msg.reply(`Robbery successful, gained $${reward.toFixed(2)}`)
+        // msg.reply(`Robbery successful, your cat helped you steal an extra $${playerPetBonus*unscaledReward}. Your target's security protected $${targetPetBonus*unscaledReward} from being stolen. You gained $${reward.toFixed(2)}. `)
+        msg.reply(`Robbery successful, you gained $${reward.toFixed(2)}!`)
       } else {
         playerBalInc = -1*Math.min(player.balance, 2*reward);
+        targetBalInc = -playerBalInc;
 
         // send msg reply
         msg.reply(`You got caught, paid penalty -$${Math.abs(playerBalInc).toFixed(2)}`)
       }
-      targetBalInc = -playerBalInc;
 
+			var x
+			if (player.thievery < 2) {
+				x = 0;
+			} else {
+				x = -2;
+			}
       const updatePlayerDocument = {
         $inc: {
           balance: playerBalInc,
-          thievery: success ? 1:0
+          thievery: success ? 1:x
         }
       }
       return dbo.collection("economy").update(playerQuery, updatePlayerDocument);

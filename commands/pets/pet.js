@@ -2,7 +2,7 @@ const Discord = require('discord.js');
 
 module.exports = {
 	name: "pet",
-	description: "[-] [store] [buy]",
+	description: "your pets! you can put `pet store` to buy new pets",
 	execute(msg, dbClient, args) {
 		var dbo = dbClient.db("economy");
 		var query = { id: `${msg.author.id}` };
@@ -23,27 +23,22 @@ module.exports = {
 					var name = result[i]["name"]
 					var bonus = pets[name]["bonus"]
 					if (pets[name]["level"] >= 0) {
-						message.addField(`${result[i]["levels"][pets[name]["level"]]} ${pets["active"] == name ? "(active)" : "(inactive)"}`, `+${bonus}% ${result[i]["description"]}`);
+						message.addField(`${result[i].name} ${pets["active"] == name ? "(active)" : "(inactive)"}`, `+${bonus}% ${result[i]["description"]}`);
 					}
 				}
 				msg.reply(message)
 			}
 
 			if (args[0] === "store") {
-				message = new Discord.MessageEmbed()
-					.setTitle(`Pet Store`)
-					.setDescription(`pets you can buy.`)
+				var	message = new Discord.MessageEmbed()
+					.setTitle(`Which pet would you like to buy?`)
 				for (var i = 0; i < result.length; i++) {
 					var name = result[i]["name"];
 					var price = pets[name]["upgrade_price"]
 					var bonus = (result[i]["base_bonus"]) * (2 ** (pets[name]["level"] + 1))
 					message.addField(`${name} [+${bonus}% ${result[i]["description"]}]`, `$${price}`);
 				}
-				msg.reply(message);
-			}
-
-			if (args[0] === "buy") {
-				msg.channel.send('Please enter the pet you want to buy.').then(() => {
+				msg.channel.send(message).then(() => {
 					const filter = m => msg.author.id === m.author.id;
 					msg.channel.awaitMessages(filter, { time: 60000, max: 1, errors: ['time'] })
 						.then(messages => {
@@ -56,7 +51,7 @@ module.exports = {
 							}
 							// user has enough money
 							if (balance > pets[animalName]["upgrade_price"]) {
-                var upgradePrice = animal["base_price"] * (4 ** (pets[animalName]["level"] + 2))
+								var upgradePrice = animal["base_price"] * (4 ** (pets[animalName]["level"] + 2))
 								var bonus = animal["base_bonus"] * (2 ** (pets[animalName]["level"] + 1));
 								var upkeep = animal["base_upkeep"] * (1.5 ** (pets[animalName]["level"] + 1));
 								const updateDocument = {

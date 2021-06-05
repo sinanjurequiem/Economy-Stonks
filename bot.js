@@ -83,25 +83,25 @@ function stockUpdate() {
 	var dbo = dbClient.db("economy");
 	dbo.collection("bank").find({}).toArray().then(function(result, err) {
 		if (err) throw err;
-    for (var i = 0; i < result.length; i++) {
-      var query = {name: `${result[i].name}`}
-      var history = result[i].history;
-      history.splice(0,0,result[i].value);
-      history.pop();
+		for (var i = 0; i < result.length; i++) {
+			var query = { name: `${result[i].name}` }
+			var history = result[i].history;
+			history.splice(0, 0, result[i].value);
+			history.pop();
 
-      var rand = Math.random() * 2 - 1;
-      const updateDocument = {
-        $inc: {
-          value: (result[i].value * ((result[i].demand) / 1000)) + (0.01*result[i].value*rand),
-          demand: -(1/2)*result[i].demand,
-        },
-        $set: {
-          history: history,
-        }
-      }
-		  dbo.collection("bank").updateOne(query, updateDocument);
-    }
-	}).catch(err => {console.log(err)});
+			var rand = Math.random() * 2 - 1;
+			const updateDocument = {
+				$inc: {
+					value: (result[i].value * ((result[i].demand) / 1000)) + (0.01 * result[i].value * rand),
+					demand: -(1 / 2) * result[i].demand,
+				},
+				$set: {
+					history: history,
+				}
+			}
+			dbo.collection("bank").updateOne(query, updateDocument);
+		}
+	}).catch(err => { console.log(err) });
 }
 
 //loop for stuff
@@ -117,12 +117,12 @@ function stockUpdate() {
 
 //command handler
 client.on('message', async function(msg) {
-  var prefix;
+	var prefix;
 	try {
-    prefix = await dashboard.getVal(msg.guild.id, "prefix");
-  } catch (err) {
-    prefix = '$';
-  }
+		prefix = await dashboard.getVal(msg.guild.id, "prefix");
+	} catch (err) {
+		prefix = '$';
+	}
 
 	if (!msg.content.startsWith(prefix) || msg.author.bot) return;
 
@@ -133,7 +133,7 @@ client.on('message', async function(msg) {
 
 	const command = client.commands.get(commandName);
 
-  console.log(`${msg.author.username} ${msg.content}`)
+	console.log(`${msg.author.username} ${msg.content}`)
 
 	const { cooldowns } = client;
 
@@ -150,7 +150,7 @@ client.on('message', async function(msg) {
 
 		if (now < expirationTime) {
 			const timeLeft = (expirationTime - now);
-      console.log(`${msg.author.username} please wait ${humanizeDuration(timeLeft)} before reusing \`${command.name}\``)
+			console.log(`${msg.author.username} please wait ${humanizeDuration(timeLeft)} before reusing \`${command.name}\``)
 			return msg.reply(`please wait ${humanizeDuration(timeLeft)} before reusing \`${command.name}\``);
 		}
 	}
@@ -162,25 +162,6 @@ client.on('message', async function(msg) {
 		command.execute(msg, dbClient, args);
 	} catch (error) {
 		console.error(error);
-		msg.reply('congratulations. you crashed the bot. please report this by sending a dm to SRequiem#9127.');
+		msg.reply('error: bot has crashed');
 	}
 });
-
-//require('child_process').fork('./dashboard/index.js');
-
-//top.gg voting stuff
-const Topgg = require("@top-gg/sdk")
-const express = require("express")
-
-const app = express()
-
-const webhook = new Topgg.Webhook("d56VME40aC")
-
-app.post("/dblwebhook", webhook.listener(vote => {
-  // vote will be your vote object, e.g
-  console.log(vote.user) // 395526710101278721 < user who voted\
-  
-  // You can also throw an error to the listener callback in order to resend the webhook after a few seconds
-}))
-
-app.listen(8080)
