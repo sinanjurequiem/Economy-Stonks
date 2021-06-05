@@ -1,4 +1,5 @@
 const Discord = require('discord.js');
+var helper = require('../../helpers.js');
 
 module.exports = {
 	name: "rob",
@@ -36,7 +37,7 @@ module.exports = {
         throw err;
       }
       target = result[0];
-			targetPetBonus = result[0].pets.dog.bonus;
+			targetPetBonus = result[0].pets.dog.bonus/100;
       console.log(target.username)
       // get player balance, thievery level
       return dbo.collection("economy").find(playerQuery).toArray();
@@ -48,15 +49,15 @@ module.exports = {
       };
 			//   get robber cat bonus
       player = result[0];
-			playerPetBonus = result[0].pets.cat.bonus;
+			playerPetBonus = result[0].pets.cat.bonus/100;
 
       // calculate if theft is successful
       var probability = player.thievery*(1+playerPetBonus)/(player.thievery*(1+playerPetBonus)+target.security*(1+targetPetBonus))
       success = !!probability && Math.random() < probability;
 
-      var unscaledReward = Math.max(0.02*target.balance, 0.7*target.balance)
+      var unscaledReward = Math.min(0.1*target.balance, 2*player.balance)
       var reward = (unscaledReward)*(1+playerPetBonus)/(1+targetPetBonus)
-      console.log(`Cb:${playerPetBonus} Db:${targetPetBonus}, Original reward:${Math.max(0.02*target.balance, 0.7*target.balance)} Reward:${reward}`);
+      console.log(`Cb:${playerPetBonus} Db:${targetPetBonus}, Original reward:${unscaledReward} Reward:${reward}`);
       // var reward = Math.max(0.2*target.balance);
       console.log(`p: ${probability}, s: ${success}`)
 
@@ -66,13 +67,13 @@ module.exports = {
         targetBalInc = -1*Math.min(playerBalInc, target.balance);
 
         // send msg reply
-        msg.reply(`Robbery successful, your cat helped you steal an extra $${playerPetBonus*unscaledReward}. Your target's security protected $${targetPetBonus*unscaledReward} from being stolen. You gained $${reward.toFixed(2)}. `)
+        msg.reply(`Robbery successful, your cat helped you steal an extra $${helper.formatNumber((playerPetBonus*unscaledReward).toFixed(2))}. Your target's dog protected $${helper.formatNumber((targetPetBonus*unscaledReward).toFixed(2))} from being stolen. You gained $${helper.formatNumber(reward.toFixed(2))}. `)
       } else {
         playerBalInc = -1*Math.min(player.balance, 2*reward);
         targetBalInc = -playerBalInc;
 
         // send msg reply
-        msg.reply(`You got caught, paid penalty -$${Math.abs(playerBalInc).toFixed(2)}`)
+        msg.reply(`You got caught, paid penalty -$${helper.formatNumber(Math.abs(playerBalInc).toFixed(2))}`)
       }
 
 			var x
@@ -87,7 +88,7 @@ module.exports = {
           thievery: success ? 1:x
         }
       }
-      return dbo.collection("economy").update(playerQuery, updatePlayerDocument);
+      return dbo.collection("economy").updateOne(playerQuery, updatePlayerDocument);
       // update player and target balances
     }).then(function(result, err) {
       if (err) throw err;
@@ -97,7 +98,7 @@ module.exports = {
           balance: targetBalInc
         }
       }
-      return dbo.collection("economy").update(targetQuery, updateTargetDocument);
+      return dbo.collection("economy").updateOne(targetQuery, updateTargetDocument);
     }).catch(err => {console.log(err)})
 	}
 }
