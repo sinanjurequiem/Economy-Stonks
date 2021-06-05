@@ -1,6 +1,7 @@
 module.exports = {
 	name: "start",
 	description: "open an account at the meme bank.",
+  status: "enabled",
 	execute(msg, dbClient, args){
     var dbo = dbClient.db("economy");
     var query = { id: `${msg.author.id}` };

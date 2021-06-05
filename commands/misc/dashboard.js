@@ -2,6 +2,7 @@ const Discord = require('discord.js');
 module.exports = {
 	name:"dashboard",
 	description:"access the dashboard for the bot",
+  status: "enabled",
 	execute(msg, args){
 		var dashboardEmbed = new Discord.MessageEmbed()
 		.setTitle("Dashboard for Economy Stonks")

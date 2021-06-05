@@ -4,6 +4,7 @@ var helper = require('../../helpers.js');
 module.exports = {
 	name: "shop",
 	description: "see the stonks on sale",
+  status: "enabled",
 	execute(msg, dbClient, args){
 
     var dbo = dbClient.db("economy");

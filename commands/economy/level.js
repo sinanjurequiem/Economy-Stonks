@@ -4,6 +4,7 @@ var helper = require('../../helpers.js');
 module.exports = {
 	name:"level",
 	description:"show the leaderboard",
+  status: "disabled",
 	execute(msg, dbClient, args){
     var dbo = dbClient.db("economy");
     var query = {id: msg.author.id};

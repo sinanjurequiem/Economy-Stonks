@@ -4,6 +4,7 @@ var helper = require('../../helpers.js');
 module.exports = {
 	name:"leaderboard",
 	description:"show the 10 people around the world with the highest bank balance",
+  status: "enabled",
 	execute(msg, dbClient, args){
     var dbo = dbClient.db("economy");
 		dbo.collection("economy").find({}).toArray().then(function(result, err) {

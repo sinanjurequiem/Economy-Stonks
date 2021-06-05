@@ -5,7 +5,8 @@ var helper = require('../../helpers.js');
 
 module.exports = {
 	name: "image",
-	description: "test canvas"
+	description: "test canvas",
+  status: "disabled"
 }
 module.exports.execute = async function (msg, dbClient, args) {
     const canvas = Canvas.createCanvas(700, 250);

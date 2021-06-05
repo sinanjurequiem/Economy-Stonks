@@ -5,7 +5,7 @@ module.exports = {
 	description: "$buystonks <qty> <ticker>",
 	args: true,
 	usage: "<quantity> <ticker>",
-	
+  status: "enabled",
 	execute(msg, dbClient, args){
 		var amount, stockName, price, totalQuantity, demand, avgBuyPrice, ownedQuantity;
 

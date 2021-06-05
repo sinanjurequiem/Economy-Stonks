@@ -3,6 +3,7 @@ const Discord = require('discord.js');
 module.exports = {
 	name: "pet",
 	description: "your pets! you can put `pet store` to buy new pets",
+  status: "enabled",
 	execute(msg, dbClient, args) {
 		var dbo = dbClient.db("economy");
 		var query = { id: `${msg.author.id}` };

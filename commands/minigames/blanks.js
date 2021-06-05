@@ -12,6 +12,7 @@ function shuffleArray(array) {
 module.exports = {
 	name:"trivia",
 	description:"do a trivia game. no, we aren't copying dank memer.",
+  status: "enabled",
 	execute(msg, dbClient, args){
 		var dbo = dbClient.db("economy");
     var query = { id: `${msg.author.id}` };
