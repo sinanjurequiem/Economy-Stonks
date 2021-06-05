@@ -2,7 +2,7 @@ const Discord = require('discord.js')
 
 module.exports = {
 	name: "vote",
-	description: "vote on top.gg",
+	description: "vote for the bot on top.gg and get rewards!",
 	execute(msg, args){
 		var voteEmbed = new Discord.MessageEmbed()
 		.setTitle("Vote for Economy Stonks on top.gg")

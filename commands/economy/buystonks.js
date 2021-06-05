@@ -2,7 +2,7 @@ var helper = require('../../helpers.js');
 
 module.exports = {
 	name: "buystonks",
-	description: "buy stonks",
+	description: "$buystonks <qty> <ticker>",
 	args: true,
 	usage: "<quantity> <ticker>",
 	

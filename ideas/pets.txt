@@ -10,7 +10,7 @@ every player has a pet
 
 BONUSES
 
-
+luk
 cryptomining
 robbing +150 (+30)
 security
@@ -113,3 +113,4 @@ if (args[0] === "store") {
     var name = result[i]["name"]:
     message.addField(result[i]["levels"][pets[name]+1]);
 }
+

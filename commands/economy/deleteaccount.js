@@ -1,7 +1,7 @@
 
 module.exports = {
 	name: "deleteaccount",
-	descripton: "delete user's profile",
+	description: "delete user's profile",
 	execute(msg, dbClient, args){
     var dbo = dbClient.db("economy");
     var query = { id: `${msg.author.id}` };

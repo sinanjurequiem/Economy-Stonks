@@ -2,7 +2,7 @@ var helper = require('../../helpers.js');
 
 module.exports = {
 	name: "sellstonks",
-	description: "sell stonks",
+	description: "$sellstonks <qty> <ticker>",
 	args: true,
 	usage: "<quantity> <ticker>",
 	execute(msg, dbClient, args){
