@@ -21,7 +21,7 @@ module.exports = {
       return;
     // } else if (mention.id == msg.author.id){
     } else if (targetUsername == msg.author.username){
-      msg.reply("you can't rob yourself you idiot. don't try and break the system.");
+      msg.reply("you can't rob yourself. don't try and break the system.");
       return;
     }
 
@@ -54,9 +54,9 @@ module.exports = {
       var probability = player.thievery*(1+playerPetBonus)/(player.thievery*(1+playerPetBonus)+target.security*(1+targetPetBonus))
       success = !!probability && Math.random() < probability;
 
-      var unscaledReward = Math.max(0.2*target.balance, 5*player.balance)
+      var unscaledReward = Math.max(0.02*target.balance, 0.7*target.balance)
       var reward = (unscaledReward)*(1+playerPetBonus)/(1+targetPetBonus)
-      console.log(`Cb:${playerPetBonus} Db:${targetPetBonus}, Original reward:${Math.max(0.2*target.balance, 0.2*player.balance)} Reward:${reward}`);
+      console.log(`Cb:${playerPetBonus} Db:${targetPetBonus}, Original reward:${Math.max(0.02*target.balance, 0.7*target.balance)} Reward:${reward}`);
       // var reward = Math.max(0.2*target.balance);
       console.log(`p: ${probability}, s: ${success}`)
 
@@ -66,8 +66,7 @@ module.exports = {
         targetBalInc = -1*Math.min(playerBalInc, target.balance);
 
         // send msg reply
-        // msg.reply(`Robbery successful, your cat helped you steal an extra $${playerPetBonus*unscaledReward}. Your target's security protected $${targetPetBonus*unscaledReward} from being stolen. You gained $${reward.toFixed(2)}. `)
-        msg.reply(`Robbery successful, you gained $${reward.toFixed(2)}!`)
+        msg.reply(`Robbery successful, your cat helped you steal an extra $${playerPetBonus*unscaledReward}. Your target's security protected $${targetPetBonus*unscaledReward} from being stolen. You gained $${reward.toFixed(2)}. `)
       } else {
         playerBalInc = -1*Math.min(player.balance, 2*reward);
         targetBalInc = -playerBalInc;
