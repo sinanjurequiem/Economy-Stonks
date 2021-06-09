@@ -19,23 +19,27 @@ module.exports = {
         throw "no account";
       } else if (args.length < 2) {
         msg.reply("$sellstonks <quantity> <ticker>");
-        throw "bad input"
+        throw "not enough arguments"
       }
       amount = parseInt(args[0]);
       if (isNaN(amount) || amount < 1){
         msg.reply("enter a valid number");
-        throw "bad input"
+        throw "invalid number"
       }
       stockName = args[1].toLowerCase();
       query = {ticker:stockName};
 
       if (!(stockName in userResult[0].stock)){
         msg.reply("Stonk does not exist, please enter a valid stonk. Format: $sellstonks <quantity> <ticker>");
-        throw "bad input";
+        throw "stock does not exist";
       }
       if (amount > userResult[0].stock[stockName].quantity){
-        msg.reply("that's more stonks than you have. type a lower number.");
-        throw "bad input";
+        amount = userResult[0].stock[stockName].quantity;
+        if (amount == 0)
+        {
+          msg.reply(`You have no ${stockName.toUpperCase()} shares to sell.`);
+          throw "no shares to sell"
+        }
       }
 
       return dbo.collection("bank").find(query).toArray();

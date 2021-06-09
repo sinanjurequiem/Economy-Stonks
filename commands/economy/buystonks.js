@@ -19,12 +19,12 @@ module.exports = {
         throw "no account";
       } else if (args.length < 2) {
         msg.reply("$buystonks <quantity> <ticker>");
-        throw "bad input"
+        throw "not enough arguments"
       }
       amount = parseInt(args[0]);
       if (isNaN(amount) || amount < 1){
         msg.reply("enter a valid number");
-        throw "bad input"
+        throw "invalid number"
       }
 
       stockName = args[1].toLowerCase();
@@ -34,7 +34,7 @@ module.exports = {
     }).then(function(result,err) {
       if (result.length == 0){
         msg.reply("Stonk does not exist, please enter a valid stonk.");
-        throw "bad input";
+        throw "stock does not exist";
       }
       if (amount > result[0].quantity){
         msg.reply("that's more stonks than there are in the bank. type a lower number, or wait until someone sells some back to the bank.");
@@ -58,8 +58,12 @@ module.exports = {
       };
 
       if (amount*price > userResult[0].balance){
-        msg.reply("haiyaa, too expensive. why so much? i didn't know you weren't billionaire. -uncle roger, 2021");
-        throw "bad input";
+        amount = Math.floor(userResult[0].balance/price);
+        if (amount == 0)
+        {
+          msg.reply("haiyaa, too expensive. why so much? i didn't know you weren't billionaire. -uncle roger, 2021");
+          throw "not enough money";
+        }
       }
       return dbo.collection("bank").updateOne(query, updateDocument);
     }).then(function(updateResult, err) {
