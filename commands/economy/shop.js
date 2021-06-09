@@ -11,7 +11,7 @@ module.exports = {
     dbo.collection("bank").find({}).toArray(function(err, result) {
       var shopEmbed = new Discord.MessageEmbed()
         .setTitle("Shop")
-        .setDescription("this is the stonks market. go buy some stonks.")
+        .setDescription("this is the stonks market. go buy some stonks. The gain shown is over the last 5 hours.")
 
       for (var i = 0; i < result.length; i++){
         var oldest = result[i].history[result[i].history.length-1];

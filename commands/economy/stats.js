@@ -79,7 +79,7 @@ module.exports = {
             var userStock = result[0].stock[`${ticker}`]
             var plural = userStock.quantity == 1 ? 0 : 1;
             var stockReturn = userStock.avgPrice == 0 ? 0 : (curPrice-userStock.avgPrice)
-            var gain = userStock.avgPrice == 0 ? 0 : ((stockReturn)/userStock.avgPrice).toFixed(2)
+            var gain = userStock.avgPrice == 0 ? 0 : (stockReturn*100/userStock.avgPrice).toFixed(2)
 
             stonksStatsEmbed.addField(`[${ticker.toUpperCase()}] $${helper.formatNumber(curPrice.toFixed(2))}, $${helper.formatNumber((curPrice*userStock.quantity).toFixed(2))}, $${helper.formatNumber(stockReturn.toFixed(2))}`, `${bank[i].name} ${userStock.quantity} share${plural?"s":""} ${gain}%`)
           }
