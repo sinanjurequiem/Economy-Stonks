@@ -32,7 +32,7 @@ module.exports = {
     var playerQuery = { id: msg.author.id };
 
     // get target balance, security level
-    dbo.collection("economy").find(targetQuery).toArray().then(function(result, err) {
+    var promise = dbo.collection("economy").find(targetQuery).toArray().then(function(result, err) {
       if (err || result.length == 0){
         msg.reply("enter a valid username, ~~i~~ you can't rob someone who doesn't exist");
         throw err;
@@ -46,7 +46,7 @@ module.exports = {
       if (err) throw err;
       if (result.length == 0) {
         msg.reply('please type $start to create an account first.');
-        throw "no account";
+        throw -1;
       };
 			//   get robber cat bonus
       player = result[0];
@@ -74,10 +74,10 @@ module.exports = {
         targetBalInc = -playerBalInc;
 
         // send msg reply
-        msg.reply(`You got caught, paid penalty -$${helper.formatNumber(Math.abs(playerBalInc).toFixed(2))}`)
+        msg.reply(`You got caught. You paid $${helper.formatNumber(Math.abs(playerBalInc).toFixed(2))} in fines to the police.`)
       }
 
-			var x
+			var x;
 			if (player.thievery < 2) {
 				x = 0;
 			} else {
@@ -100,6 +100,7 @@ module.exports = {
         }
       }
       return dbo.collection("economy").updateOne(targetQuery, updateTargetDocument);
-    }).catch(err => {console.log(err)})
+    }).catch(err => {console.log(err); return err});
+    return promise;
 	}
 }

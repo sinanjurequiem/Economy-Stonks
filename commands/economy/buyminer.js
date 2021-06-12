@@ -7,7 +7,7 @@ module.exports = {
 	execute(msg, dbClient, args){
     var dbo = dbClient.db("economy");
     var query = { id: `${msg.author.id}` };
-    dbo.collection("economy").find(query).toArray().then(function(result, err) {
+    var promise = dbo.collection("economy").find(query).toArray().then(function(result, err) {
       if (err) throw err;
       if (result.length == 0) {
         msg.reply('please type $start to create an account first.')
@@ -32,6 +32,7 @@ module.exports = {
       else {
         msg.reply("you can't afford to upgrade your crypto miner. get a job first.")
       }
-    }).catch(err => {console.log(err)});
+    }).catch(err => {console.log(err); return err});
+    return promise;
   }
 }

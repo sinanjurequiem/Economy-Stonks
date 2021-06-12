@@ -9,7 +9,7 @@ module.exports = {
 		var query = { id: `${msg.author.id}` };
 		var pets = [];
 		var balance;
-		dbo.collection("economy").find(query).toArray().then(function(result) {
+		var promise = dbo.collection("economy").find(query).toArray().then(function(result) {
 			balance = result[0]["balance"]
 			pets = result[0]["pets"]
 
@@ -80,6 +80,7 @@ module.exports = {
 						});
 				});
 			}
-		}).catch(err => { console.log(err) });
+    }).catch(err => {console.log(err); return err});
+    return promise;
 	}
 }

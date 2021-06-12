@@ -9,8 +9,11 @@ module.exports = {
 				.setTitle("Donate to Studio Hyaxn")
 				.setDescription("You can become a patron here: https://www.patreon.com/studiohyaxn. All donations are much appreciated.")
 
-			msg.reply(patreonembed)
+    msg.reply(patreonembed)
 
-
+    var promise = new Promise(() => {
+      return 0;
+    })
+    return promise;
 	}
 }

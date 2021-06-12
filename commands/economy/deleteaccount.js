@@ -6,7 +6,7 @@ module.exports = {
 	execute(msg, dbClient, args){
     var dbo = dbClient.db("economy");
     var query = { id: `${msg.author.id}` };
-    dbo.collection("economy").find(query).toArray().then(function(result, err) {
+    var promise = dbo.collection("economy").find(query).toArray().then(function(result, err) {
       if (err) throw err;
       if (result.length == 0) {
         msg.reply('please type $start to create an account first.')
@@ -30,6 +30,7 @@ module.exports = {
           msg.channel.send('Error 408: Connection timed out. You have not deleted your account.');
         });
       });
-    }).catch(err => {console.log(err)});
+    }).catch(err => {console.log(err); return err});
+    return promise;
   }
 }

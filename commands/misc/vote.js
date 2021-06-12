@@ -11,5 +11,10 @@ module.exports = {
 		.setURL("https://top.gg/bot/803384014618624081");
 
 		msg.reply(voteEmbed);
+
+    var promise = new Promise(() => {
+      return 0;
+    })
+    return promise;
 	}
 }

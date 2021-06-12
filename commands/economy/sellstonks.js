@@ -13,7 +13,7 @@ module.exports = {
     var query;
     var userQuery = { id: `${msg.author.id}` }
 
-    dbo.collection("economy").find(userQuery).toArray().then(function(userResult) {
+    var promise = dbo.collection("economy").find(userQuery).toArray().then(function(userResult) {
       if (userResult.length == 0) {
         msg.reply('please type $start to create an account first.');
         throw "no account";
@@ -70,6 +70,7 @@ module.exports = {
     }).then(function(updateUserResult, err){
       if (err) throw err;
       msg.reply(`you have sold ${amount} ${stockName.toUpperCase()} for $${helper.formatNumber((price*amount).toFixed(3))}.`)
-    }).catch(err => {console.log(err)});
+    }).catch(err => {console.log(err); return err});
+    return promise;
 	}
 }

@@ -5,7 +5,7 @@ module.exports = {
 	execute(msg, dbClient, args){
     var dbo = dbClient.db("economy");
     var query = { id: `${msg.author.id}` };
-    dbo.collection("economy").find(query).toArray(function(err, result) {
+    var promise = dbo.collection("economy").find(query).toArray().then(function(result, err) {
       if (err) throw err;
       if (result.length == 0) {
         const newAccount = {
@@ -57,6 +57,7 @@ module.exports = {
         msg.reply(`you have already created an account.`)
         console.log(`${msg.author.username} has ` + bal + `in his/her account.`);
       }
-    });
+    }).catch(err => {console.log(err); return err});
+    return promise;
 	}
 }

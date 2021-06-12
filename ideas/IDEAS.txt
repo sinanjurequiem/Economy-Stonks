@@ -2,8 +2,8 @@ TODO
 webhooks for vote rewards
 - set up web server
 sometime in future: add pets aaaaaaaaaaa{
-	bonuses when robbing
-	bonus to defense
+	[DONE]bonuses when robbing
+	[DONE]bonus to defense
 	will find stuff for you
 	generates passive DEBT, HA YOU THOUGHT I'D SAY INCOME
 }
@@ -13,8 +13,9 @@ upgrade security
 robbing
 - add descriminator
 notifications command
-dynamic help command
+[DONE]dynamic help command
 update username with stats command
+[BUG]dont start cooldown if user profile doesn't exist
 
 Level Up:
 requirements:

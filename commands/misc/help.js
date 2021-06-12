@@ -17,7 +17,11 @@ module.exports = {
         if (entry[0] != undefined && entry[1].status == "enabled")
           helpembed.addField(entry[1].name, entry[1].description)
       }
-
       msg.reply(helpembed);
+
+      var promise = new Promise(() => {
+        return 0;
+      })
+      return promise;
   }
 }

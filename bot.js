@@ -159,7 +159,11 @@ client.on('message', async function(msg) {
 
 
 	try {
-		command.execute(msg, dbClient, args);
+		command.execute(msg, dbClient, args).then(function(result) {
+      if (result == -1) {
+	      setTimeout(() => timestamps.delete(msg.author.id));
+      }
+    });
 	} catch (error) {
 		console.error(error);
 		msg.reply('error: bot has crashed');

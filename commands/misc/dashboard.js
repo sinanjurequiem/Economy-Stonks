@@ -9,5 +9,10 @@ module.exports = {
 		.setURL("https://economystonks.botdash.pro")
 		.setDescription("Here, you can customize Economy Stonks for your own server. There are currently very few options for customization. More things coming soon.")
 		msg.reply(dashboardEmbed)
+
+    var promise = new Promise(() => {
+      return 0;
+    })
+    return promise;
 	}
 }

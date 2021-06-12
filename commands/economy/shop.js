@@ -8,7 +8,7 @@ module.exports = {
 	execute(msg, dbClient, args){
 
     var dbo = dbClient.db("economy");
-    dbo.collection("bank").find({}).toArray(function(err, result) {
+    var promise = dbo.collection("bank").find({}).toArray(function(err, result) {
       var shopEmbed = new Discord.MessageEmbed()
         .setTitle("Shop")
         .setDescription("this is the stonks market. go buy some stonks. The gain shown is over the last 5 hours.")
@@ -32,6 +32,7 @@ module.exports = {
         shopEmbed.addField(`${result[i].name} [${result[i].ticker.toUpperCase()}] $${helper.formatNumber(result[i].value.toFixed(2))}`, `${sign} ${helper.formatNumber(change.toFixed(2))} (${helper.formatNumber((change*100/oldest).toFixed(2))}%)\tRating: ${rating}`)
       }
       msg.reply(shopEmbed);
-    });
+    }).catch(err => {console.log(err); return err});
+    return promise;
 	}
 }
