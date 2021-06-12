@@ -1,11 +1,11 @@
 const humanizeDuration = require('humanize-duration')
 
 module.exports = {
-	name: "hourly",
-	description: "get your hourly dose of caffeine and work. YOU NEED MONEY, NO TIME FOR SLEEP.",
-	cooldown:3600,
+  name: "hourly",
+  description: "get your hourly dose of caffeine and work. YOU NEED MONEY, NO TIME FOR SLEEP.",
+  cooldown: 3600,
   status: "enabled",
-	execute(msg, dbClient, args){
+  execute(msg, dbClient, args) {
     var dbo = dbClient.db("economy");
     var query = { id: `${msg.author.id}` };
     var promise = dbo.collection("economy").find(query).toArray().then(function(result, err) {
@@ -24,7 +24,7 @@ module.exports = {
       msg.reply("you have recieved your hourly bonus of $25.");
 
       return dbo.collection("economy").updateOne(query, updateDocument);
-    }).catch(err => {console.log(err); return err});
+    }).catch(err => { console.log(err); return err });
     return promise;
-	}
+  }
 }

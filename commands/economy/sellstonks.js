@@ -1,13 +1,13 @@
 var helper = require('../../helpers.js');
 
 module.exports = {
-	name: "sellstonks",
-	description: "$sellstonks <qty> <ticker>",
-	args: true,
-	usage: "<quantity> <ticker>",
+  name: "sellstonks",
+  description: "$sellstonks <qty> <ticker>",
+  args: true,
+  usage: "<quantity> <ticker>",
   status: "enabled",
-	execute(msg, dbClient, args){
-		var amount, stockName, price, totalQuantity, demand;
+  execute(msg, dbClient, args) {
+    var amount, stockName, price, totalQuantity, demand;
 
     var dbo = dbClient.db("economy");
     var query;
@@ -22,36 +22,35 @@ module.exports = {
         throw "not enough arguments"
       }
       amount = parseInt(args[0]);
-      if (isNaN(amount) || amount < 1){
+      if (isNaN(amount) || amount < 1) {
         msg.reply("enter a valid number");
         throw "invalid number"
       }
       stockName = args[1].toLowerCase();
-      query = {ticker:stockName};
+      query = { ticker: stockName };
 
-      if (!(stockName in userResult[0].stock)){
+      if (!(stockName in userResult[0].stock)) {
         msg.reply("Stonk does not exist, please enter a valid stonk. Format: $sellstonks <quantity> <ticker>");
         throw "stock does not exist";
       }
-      if (amount > userResult[0].stock[stockName].quantity){
+      if (amount > userResult[0].stock[stockName].quantity) {
         amount = userResult[0].stock[stockName].quantity;
-        if (amount == 0)
-        {
+        if (amount == 0) {
           msg.reply(`You have no ${stockName.toUpperCase()} shares to sell.`);
           throw "no shares to sell"
         }
       }
 
       return dbo.collection("bank").find(query).toArray();
-    }).then(function(result){
-		  price = result[0].value;
+    }).then(function(result) {
+      price = result[0].value;
       totalQuantity = result[0].totalQuantity;
       demand = result[0].demand;
 
-      const updateDocument =  {
+      const updateDocument = {
         $inc: {
           quantity: amount,
-          demand: -(amount/totalQuantity)*(1000-demand),
+          demand: -(amount / totalQuantity) * (1000 - demand),
           // [stockName + ".value"]: -price * (amount / totalQuantity) * (demand/500) * Math.random() * 2
         },
       };
@@ -60,17 +59,17 @@ module.exports = {
     }).then(function(updateResult, err) {
       if (err) throw err;
       const updateDocumentUser = {
-        $inc:{
+        $inc: {
           ["stock." + stockName + ".quantity"]: -amount,
-          balance: amount*price
+          balance: amount * price
         }
       }
       console.log(`${msg.author.username} sold ${amount} ${stockName} at $${helper.formatNumber(price.toFixed(3))}`);
       dbo.collection("economy").updateOne(userQuery, updateDocumentUser);
-    }).then(function(updateUserResult, err){
+    }).then(function(updateUserResult, err) {
       if (err) throw err;
-      msg.reply(`you have sold ${amount} ${stockName.toUpperCase()} for $${helper.formatNumber((price*amount).toFixed(3))}.`)
-    }).catch(err => {console.log(err); return err});
+      msg.reply(`you have sold ${amount} ${stockName.toUpperCase()} for $${helper.formatNumber((price * amount).toFixed(3))}.`)
+    }).catch(err => { console.log(err); return err });
     return promise;
-	}
+  }
 }

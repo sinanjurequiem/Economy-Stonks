@@ -48,7 +48,7 @@ module.exports = {
           rig: 0,
           pool: 0
         };
-        dbo.collection("economy").insertOne(newAccount, function(err, res) {
+        return dbo.collection("economy").insertOne(newAccount, function(err, res) {
           console.log(`${msg.author.username} now has 0$.`)
           msg.reply(`you have created an account at the meme bank. and you're flat broke.`)
         })
