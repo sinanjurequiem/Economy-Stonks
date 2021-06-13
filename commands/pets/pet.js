@@ -9,7 +9,13 @@ module.exports = {
 		var query = { id: `${msg.author.id}` };
 		var pets = [];
 		var balance;
-		var promise = dbo.collection("economy").find(query).toArray().then(function(result) {
+		var promise = dbo.collection("economy").find(query).toArray().then(function(result, err) {
+      if (err) throw err;
+      if (result.length == 0) {
+        msg.reply('please type $start to create an account first.');
+        throw -1;
+      }
+      
 			balance = result[0]["balance"]
 			pets = result[0]["pets"]
 

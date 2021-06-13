@@ -53,7 +53,7 @@ module.exports = {
             dog: { level: -1, bonus: 0, upgrade_price: 100, upkeep: 20 },
             hamster: { level: -1, bonus: 0, upgrade_price: 100, upkeep: 20 },
             fish: { level: -1, bonus: 0, upgrade_price: 100, upkeep: 20 },
-            active: cat }
+            active: "cat" }
         };
         return dbo.collection("economy").insertOne(newAccount, function(err, res) {
           console.log(`${msg.author.username} now has 0$.`)

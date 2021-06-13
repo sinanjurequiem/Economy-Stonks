@@ -8,7 +8,7 @@ module.exports = {
   execute(msg, dbClient, args) {
 
     var dbo = dbClient.db("economy");
-    var promise = dbo.collection("bank").find({}).toArray(function(err, result) {
+    var promise = dbo.collection("bank").find({}).toArray().then(function(result, err) {
       var shopEmbed = new Discord.MessageEmbed()
         .setTitle("Shop")
         .setDescription("this is the stonks market. go buy some stonks. The gain shown is over the last 5 hours.")
