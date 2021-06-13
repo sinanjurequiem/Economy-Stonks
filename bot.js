@@ -163,7 +163,7 @@ client.on('message', async function(msg) {
       if (result == -1) {
 	      setTimeout(() => timestamps.delete(msg.author.id));
       }
-    });
+    }).catch(err => {console.log(err)});
 	} catch (error) {
 		console.error(error);
 		msg.reply('error: bot has crashed');
