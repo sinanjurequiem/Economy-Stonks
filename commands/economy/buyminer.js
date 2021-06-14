@@ -12,7 +12,7 @@ module.exports = {
       if (result.length == 0) {
         msg.reply('please type $start to create an account first.')
       };
-      var costOfUpgrade = ((result[0].rig + 2) ** 3) * 100;
+      var costOfUpgrade = ((result[0].rig + 2) ** 2) * 100;
       if (result[0].balance > costOfUpgrade) {
 
         const updateDocument = {
