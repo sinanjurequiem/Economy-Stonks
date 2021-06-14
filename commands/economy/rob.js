@@ -3,8 +3,8 @@ var helper = require('../../helpers.js');
 
 module.exports = {
   name: "rob",
-  description: "rob a guy. don't ping them, just use their username. we designed this for maximum sneakiness.",
-  cooldown: 300,
+  description: "rob a guy. don't ping them, just use their username. we designed this for maximum sneakiness. Check the leaderboard for targets.",
+  cooldown: 60,
   status: "enabled",
   execute(msg, dbClient, args) {
     var target;

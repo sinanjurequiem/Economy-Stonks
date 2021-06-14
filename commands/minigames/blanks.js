@@ -21,7 +21,7 @@ module.exports = {
       if (err) throw err;
       if (result.length == 0) {
         msg.reply('please type $start to create an account first.')
-        throw err;
+        throw -1;
       }
       return dbo.collection("trivia").find({}).toArray()
     }).then(function(result, err) {

@@ -17,11 +17,11 @@ module.exports = {
 
       const updateDocument = {
         $inc: {
-          balance: 250
+          balance: 500
         },
       };
       console.log(`${msg.author.username} has recieved their daily bonus.`);
-      msg.reply("you have recieved your daily bonus of $250.");
+      msg.reply("you have recieved your daily bonus of $500.");
 
       return dbo.collection("economy").updateOne(query, updateDocument);
     }).catch(err => { console.log(err); return err });

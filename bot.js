@@ -67,7 +67,7 @@ function cryptoMine() {
 		for (var i = 0; i < rigArray.length; i++) {
 			const updateDocument = {
 				$inc: {
-					balance: (config.moneyPerBlock * rigArray[i] * Math.random() * 2)
+					balance: (config.moneyPerBlock * rigArray[i])
 				}
 			};
 

@@ -16,7 +16,7 @@ module.exports = {
     var promise = dbo.collection("economy").find(userQuery).toArray().then(function(userResult) {
       if (userResult.length == 0) {
         msg.reply('please type $start to create an account first.');
-        throw "no account";
+        throw -1;
       } else if (args.length < 2) {
         msg.reply("$sellstonks <quantity> <ticker>");
         throw "not enough arguments"

@@ -45,7 +45,8 @@ module.exports = {
       return dbo.collection("economy").find(query).toArray();
     }).then(function(result, err) {
       if (result.length == 0) {
-        msg.reply("type $start to create an account first.")
+        msg.reply("type $start to create an account first.");
+        throw -1;
       }
       else {
         var cashStatsEmbed = new Discord.MessageEmbed()
@@ -64,7 +65,7 @@ module.exports = {
           .setDescription(`this is your crypto miner's stats. it lets you create passive income.`)
           .addFields(
             { name: "miner level", value: `level ${result[0].rig}` },
-            { name: "earnings per block", value: `$${config.moneyPerBlock * (result[0].rig / 2)}` },
+            { name: "earnings per block (~8 blocks mined per hour)", value: `$${config.moneyPerBlock * (result[0].rig / 2)}` },
             { name: "cost to upgrade to next level", value: `$${costOfUpgrade}` }
           )
         msg.reply(minerStatsEmbed);
@@ -80,6 +81,10 @@ module.exports = {
           var plural = userStock.quantity == 1 ? 0 : 1;
           var stockReturn = userStock.avgPrice == 0 ? 0 : (curPrice - userStock.avgPrice)
           var gain = userStock.avgPrice == 0 ? 0 : (stockReturn * 100 / userStock.avgPrice).toFixed(2)
+
+          if (userStock.quantity == 0){
+            continue;
+          }
 
           stonksStatsEmbed.addField(`[${ticker.toUpperCase()}] $${helper.formatNumber(curPrice.toFixed(2))}, $${helper.formatNumber((curPrice * userStock.quantity).toFixed(2))}, $${helper.formatNumber(stockReturn.toFixed(2))}`, `${bank[i].name} ${userStock.quantity} share${plural ? "s" : ""} ${gain}%`)
         }

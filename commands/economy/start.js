@@ -57,7 +57,7 @@ module.exports = {
         };
         return dbo.collection("economy").insertOne(newAccount, function(err, res) {
           console.log(`${msg.author.username} now has 0$.`)
-          msg.reply(`you have created an account at the meme bank. and you're flat broke.`)
+          msg.reply(`you have created an account at the meme bank. and you're flat broke. Tips: get your **$daily** and **$hourly** work bonuses to start. Try **$stonks** trading, **$rob** people on the **$leaderboard**, and buy from the **$pet store** for % bonuses!`)
         })
       } else {
         var bal = result[0].balance;
