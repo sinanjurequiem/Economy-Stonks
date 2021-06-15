@@ -89,7 +89,7 @@ module.exports = {
           if (userStock.quantity == 0) {
             continue;
           }
-          totalReturn += stockReturn;
+          totalReturn += totalStockReturn;
           originalInput += userStock.avgPrice * userStock.quantity;
 
           stonksStatsEmbed.addField(`[${ticker.toUpperCase()}] $${helper.formatNumber(curPrice.toFixed(2))}, $${helper.formatNumber((curPrice * userStock.quantity).toFixed(2))}, $${helper.formatNumber(totalStockReturn.toFixed(2))}`, `${bank[i].name} ${userStock.quantity} share${plural ? "s" : ""} ${gain}%`)
