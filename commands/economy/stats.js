@@ -72,22 +72,29 @@ module.exports = {
 
         var stonksStatsEmbed = new Discord.MessageEmbed()
           .setTitle(`${taggedUser.username}'s Stonks`)
-          .setDescription(`Stock, price, total value, total return`)
+          .setDescription(`[Stock] price, total value, total return`)
+
+        var totalReturn = 0;
+        var originalInput = 0;
 
         for (var i = 0; i < bank.length; i++) {
           var ticker = bank[i].ticker
           var curPrice = bank[i].value
           var userStock = result[0].stock[`${ticker}`]
           var plural = userStock.quantity == 1 ? 0 : 1;
-          var stockReturn = userStock.avgPrice == 0 ? 0 : (curPrice - userStock.avgPrice)
+          var stockReturn = userStock.avgPrice == 0 ? 0 : (curPrice - userStock.avgPrice) * userStock.quantity;
           var gain = userStock.avgPrice == 0 ? 0 : (stockReturn * 100 / userStock.avgPrice).toFixed(2)
 
-          if (userStock.quantity == 0){
+          if (userStock.quantity == 0) {
             continue;
           }
+          totalReturn += stockReturn;
+          originalInput += userStock.avgPrice * userStock.quantity;
 
           stonksStatsEmbed.addField(`[${ticker.toUpperCase()}] $${helper.formatNumber(curPrice.toFixed(2))}, $${helper.formatNumber((curPrice * userStock.quantity).toFixed(2))}, $${helper.formatNumber(stockReturn.toFixed(2))}`, `${bank[i].name} ${userStock.quantity} share${plural ? "s" : ""} ${gain}%`)
         }
+        var gain = totalReturn
+        stonksStatsEmbed.addField(`Total Portfolio Gain`, `${totalReturn > 0 ? 'Up' : 'Down'} $${helper.formatNumber(totalReturn.toFixed(2))} (${helper.formatNumber((totalReturn * 100 / originalInput).toFixed(2))}%)`)
         msg.reply(stonksStatsEmbed)
       }
     }).catch(err => { console.log(err); return err });
