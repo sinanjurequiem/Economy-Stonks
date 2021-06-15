@@ -19,7 +19,7 @@ module.exports = {
 
     // if (args.length == 0 || !mention) {
     if (args.length == 0) {
-      msg.reply("enter a username, ~~i~~ you can't rob thin air");
+      msg.reply("enter a username, you can't rob thin air");
       return;
       // } else if (mention.id == msg.author.id){
     } else if (targetUsername == msg.author.username) {

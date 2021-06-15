@@ -159,7 +159,8 @@ client.on('message', async function(msg) {
 
 
 	try {
-		command.execute(msg, dbClient, args).then(function(result) {
+		var rv = command.execute(msg, dbClient, args);
+    Promise.resolve(rv).then(function(result) {
       if (result == -1) {
 	      setTimeout(() => timestamps.delete(msg.author.id));
       }
