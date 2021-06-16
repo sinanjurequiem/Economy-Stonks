@@ -59,9 +59,11 @@ module.exports = {
               // give rewards
               return dbo.collection("economy").updateOne(query, updateDocument);
             } else {
-              console.log(`${msg.author.username}' loses`);
-              msg.channel.send(`**GAME OVER**\n The correct answer was: ${item.correct_answer}`);
+              throw -1;
             }
+          }).catch(err => {
+            console.log(`${msg.author.username}' loses`);
+            msg.channel.send(`**GAME OVER**\n The correct answer was: ${item.correct_answer}`);
           });
       });
     }).catch(err => { console.log(err); return err });
