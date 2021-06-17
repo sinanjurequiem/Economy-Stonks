@@ -76,6 +76,7 @@ module.exports = {
 
         var totalReturn = 0;
         var originalInput = 0;
+        var portfolioValue = 0;
 
         for (var i = 0; i < bank.length; i++) {
           var ticker = bank[i].ticker
@@ -91,11 +92,12 @@ module.exports = {
           }
           totalReturn += totalStockReturn;
           originalInput += userStock.avgPrice * userStock.quantity;
+          portfolioValue += userStock.quantity * curPrice;
 
           stonksStatsEmbed.addField(`[${ticker.toUpperCase()}] $${helper.formatNumber(curPrice.toFixed(2))}, $${helper.formatNumber((curPrice * userStock.quantity).toFixed(2))}, $${helper.formatNumber(totalStockReturn.toFixed(2))}`, `${bank[i].name} ${userStock.quantity} share${plural ? "s" : ""} ${gain}%`)
         }
         var gain = totalReturn
-        stonksStatsEmbed.addField(`Total Portfolio Gain`, `${totalReturn > 0 ? 'Up' : 'Down'} $${helper.formatNumber(totalReturn.toFixed(2))} (${helper.formatNumber((totalReturn * 100 / originalInput).toFixed(2))}%)`)
+        stonksStatsEmbed.addField(`Total Portfolio Value: $${helper.formatNumber(portfolioValue.toFixed(2))}`, `${totalReturn > 0 ? 'Up' : 'Down'} $${helper.formatNumber(totalReturn.toFixed(2))} (${helper.formatNumber((totalReturn * 100 / originalInput).toFixed(2))}%)`)
         msg.reply(stonksStatsEmbed)
       }
     }).catch(err => { console.log(err); return err });
