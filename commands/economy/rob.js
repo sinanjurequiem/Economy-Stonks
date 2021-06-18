@@ -34,8 +34,8 @@ module.exports = {
     // get target balance, security level
     var promise = dbo.collection("economy").find(targetQuery).toArray().then(function(result, err) {
       if (err || result.length == 0) {
-        msg.reply("enter a valid username, ~~i~~ you can't rob someone who doesn't exist");
-        throw err;
+        msg.reply("enter a valid username, ~~i~~ you can't rob someone who doesn't exist. (eg. $rob mmvmo)");
+        throw -6;
       }
       target = result[0];
       targetPetBonus = result[0].pets.dog.bonus / 100;
