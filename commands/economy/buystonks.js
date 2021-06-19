@@ -1,4 +1,4 @@
-  var helper = require('../../helpers.js');
+var helper = require('../../helpers.js');
 const yahooFinance = require('yahoo-finance');
 
 module.exports = {
@@ -27,14 +27,14 @@ module.exports.execute = async function(msg, dbClient, args) {
   amount = parseInt(args[0]);
   if (isNaN(amount) || amount < 1) {
     msg.reply("enter a valid number");
-    throw -3;
+    throw -2;
   }
 
   stockName = args[1].toUpperCase();
   const stockResult = await yahooFinance.quote(stockName, ['price']);
   if (stockResult.price.shortName == null) {
     msg.reply("Stonk does not exist, please enter a valid stonk.");
-    throw -4;
+    throw -2;
   }
 
   price = stockResult.price.regularMarketPrice;
@@ -42,7 +42,7 @@ module.exports.execute = async function(msg, dbClient, args) {
     amount = Math.floor(userResult[0].balance / price);
     if (amount == 0) {
       msg.reply("haiyaa, too expensive. why so much? i didn't know you weren't billionaire. -uncle roger, 2021");
-      throw -5;
+      throw -3;
     }
   }
 
