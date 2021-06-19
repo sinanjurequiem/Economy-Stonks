@@ -4,6 +4,7 @@ module.exports = {
 	name: "pet",
 	description: "your pets! you can put `pet store` to buy new pets",
   status: "enabled",
+  category: "bonus money making",
 	execute(msg, dbClient, args) {
 		var dbo = dbClient.db("economy");
 		var query = { id: `${msg.author.id}` };

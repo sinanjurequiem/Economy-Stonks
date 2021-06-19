@@ -4,6 +4,7 @@ module.exports = {
   name: "buyminer",
   description: "buy or upgrade your crypto miner. crypto miners allow you to generate income while afk.",
   status: "enabled",
+  category: "economy",
   execute(msg, dbClient, args) {
     var dbo = dbClient.db("economy");
     var query = { id: `${msg.author.id}` };

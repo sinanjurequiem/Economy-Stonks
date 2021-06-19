@@ -11,7 +11,8 @@ exports.getCommands = function() {
     const commandFiles = fs.readdirSync(`./commands/${folder}`).filter(file => file.endsWith('.js'));
     for (const file of commandFiles) {
       command = require(`./commands/${folder}/${file}`);
-      commands.set(command.name, command);
+      if (command.category !== undefined && command.status == "enabled")
+        commands.set(command.name, command);
     }
   }
   return commands;

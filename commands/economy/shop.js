@@ -5,13 +5,14 @@ module.exports = {
   name: "stonks",
   description: "see the stonks on sale",
   status: "enabled",
+  category: "stonk market",
   execute(msg, dbClient, args) {
 
     var dbo = dbClient.db("economy");
     var promise = dbo.collection("bank").find({}).toArray().then(function(result, err) {
       var shopEmbed = new Discord.MessageEmbed()
         .setTitle("Shop")
-        .setDescription("this is the stonks market. go buy some stonks. The gain shown is over the last 5 hours.")
+        .setDescription("this is the stonks market. go buy some stonks. The gain shown is over the last 5 hours. Use $buystonks and $sellstonks to trade.")
 
       for (var i = 0; i < result.length; i++) {
         var oldest = result[i].history[result[i].history.length - 1];

@@ -2,6 +2,7 @@ module.exports = {
   name: "updates",
   status: "enabled",
   description: "check here for feature updates",
+  category: "extra",
   execute(msg, args) {
     msg.reply("We've added pets and robbery. So go play with your dog and then burglarize your rival's house.")
 

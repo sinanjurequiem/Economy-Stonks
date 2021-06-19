@@ -6,6 +6,7 @@ module.exports = {
   description: "rob a guy. don't ping them, just use their username. we designed this for maximum sneakiness. Check the leaderboard for targets.",
   cooldown: 60,
   status: "enabled",
+  category: "bonus money making",
   execute(msg, dbClient, args) {
     var target;
     var player;
@@ -34,8 +35,8 @@ module.exports = {
     // get target balance, security level
     var promise = dbo.collection("economy").find(targetQuery).toArray().then(function(result, err) {
       if (err || result.length == 0) {
-        msg.reply("enter a valid username, ~~i~~ you can't rob someone who doesn't exist. (eg. $rob mmvmo)");
-        throw -6;
+        msg.reply("That person doesn't exist, enter a valid username. Don't ping them! (eg $rob mmvmo)");
+        throw -2;
       }
       target = result[0];
       targetPetBonus = result[0].pets.dog.bonus / 100;

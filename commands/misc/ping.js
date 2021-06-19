@@ -1,7 +1,8 @@
 module.exports = {
   name: 'ping',
   description: 'this does not ping people, etc',
-  status: "enabled",
+  status: "disabled",
+  category: "extra",
   execute(msg, args) {
     msg.reply(`the bot works. are you happy now?`)
 
