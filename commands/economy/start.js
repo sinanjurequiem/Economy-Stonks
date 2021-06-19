@@ -12,37 +12,7 @@ module.exports = {
           id: `${msg.author.id}`,
           balance: 0,
           username: `${msg.author.username}`,
-
-          stock: {
-            dgs: {
-              quantity: 0,
-              avgPrice: 0
-            },
-            adp: {
-              quantity: 0,
-              avgPrice: 0
-            },
-            pdp: {
-              quantity: 0,
-              avgPrice: 0
-            },
-            mkp: {
-              quantity: 0,
-              avgPrice: 0
-            },
-            jst: {
-              quantity: 0,
-              avgPrice: 0
-            },
-            ftg: {
-              quantity: 0,
-              avgPrice: 0
-            },
-            rbk: {
-              quantity: 0,
-              avgPrice: 0
-            }
-          },
+          stock: [],
           thievery: 1,
           security: 1,
           rig: 0,

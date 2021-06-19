@@ -18,7 +18,7 @@ module.exports.execute = async function(msg, dbClient, args) {
     else
       taggedUser = msg.mentions.users.first().username;
   }
-  
+
   var dbo = dbClient.db("economy");
   var rank, totalUsers, user, totalReturn = 0, originalInput = 0, portfolioValue = 0;
 

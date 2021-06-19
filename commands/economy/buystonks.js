@@ -46,7 +46,7 @@ module.exports.execute = async function(msg, dbClient, args) {
     }
   }
 
-  userStock = userResult[0].stock.filter(stock => stock.name == stockName.toLowerCase())
+  userStock = userResult[0].stock.filter(stock => stock.name == stockName)
 
   if (userStock.length == 0) {
     updateDocumentUser = {

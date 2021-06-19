@@ -19,18 +19,18 @@ module.exports.execute = async function(msg, dbClient, args) {
     symbols = args;
   }
 
+  const result = await yahooFinance.quote({symbols: symbols, modules:['price']});
+
   for (var i = 0; i < symbols.length; i++) {
-
-    const result = await yahooFinance.quote(symbols[i], ['price']);
-
-    if (result.price.shortName == null) {
+    var stock = result[symbols[i]];
+    if (stock.price.shortName == null) {
 
       continue;
     }
 
-    var change = (result.price.regularMarketPrice - result.price.regularMarketOpen);
+    var change = (stock.price.regularMarketPrice - stock.price.regularMarketOpen);
 
-    shopEmbed.addField(`${result.price.shortName} [${symbols[i]}] $${result.price.regularMarketPrice}`, `${helper.formatNumber(change.toFixed(2))} (${helper.formatNumber((change * 100 / result.price.regularMarketOpen).toFixed(2))}%)`)
+    shopEmbed.addField(`${stock.price.shortName} [${symbols[i]}] $${stock.price.regularMarketPrice}`, `${helper.formatNumber(change.toFixed(2))} (${helper.formatNumber((change * 100 / stock.price.regularMarketOpen).toFixed(2))}%)`)
   }
   msg.reply(shopEmbed);
 }
