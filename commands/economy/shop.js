@@ -71,11 +71,9 @@ module.exports.execute = async function(msg, dbClient, args) {
     msg.reply(userStocksEmbed);
     msg.reply(watchlistEmbed);
     msg.reply(`use **$stonks <TICKER>** for more options and detailed information`);
+    return;
   } else {
     symbols = args;
-  }
-  if (userResult.length != 0) {
-    symbols.push(userResult.watchlist)
   }
 
   const result = await yahooFinance.quote({ symbols: symbols, modules: ['price'] });
@@ -86,12 +84,15 @@ module.exports.execute = async function(msg, dbClient, args) {
 
       continue;
     }
+    var stonkEmbed = new Discord.MessageEmbed()
+      .setTitle(`${symbols[i].toUpperCase()}`)
+      .setDescription(`${stock.price.shortName}`);
 
     var change = (stock.price.regularMarketPrice - stock.price.regularMarketOpen);
 
-    shopEmbed.addField(`${stock.price.shortName} [${symbols[i]}] $${stock.price.regularMarketPrice}`, `${helper.formatNumber(change.toFixed(2))} (${helper.formatNumber((change * 100 / stock.price.regularMarketOpen).toFixed(2))}%)`)
+    stonkEmbed.addField(`$${stock.price.regularMarketPrice}`, `${helper.formatNumber(change, sign='+')} (${helper.formatNumber((change * 100 / stock.price.regularMarketOpen), sign='+')}%)`);
+    msg.reply(stonkEmbed);
   }
-  msg.reply(shopEmbed);
 }
 
 
