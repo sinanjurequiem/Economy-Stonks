@@ -13,7 +13,7 @@ module.exports.execute = async function(msg, dbClient, args) {
   const context = canvas.getContext('2d');
 
   // Since the image takes time to load, you should await it
-  const background = await Canvas.loadImage('./wallpaper.jpg');
+  const background = await Canvas.loadImage('./test.png');
   // This uses the canvas dimensions to stretch the image onto the entire canvas
   context.drawImage(background, 0, 0, canvas.width, canvas.height);
   // Set the color of the stroke
