@@ -43,10 +43,8 @@ module.exports.execute = async function(msg, dbClient, args) {
     .setTitle(`${taggedUser}'s General Stats`)
     .setDescription(`These are your stats`)
     .addFields(
-      { name: "bank balance", value: `$${helper.formatNumber(balance)}` },
-      { name: "global rank", value: `#${rank} out of ${total_users} players.` }
+      { name: "bank balance", value: `$${helper.formatNumber(balance)}` }
     )
-  msg.reply(cashStatsEmbed);
 
   var costOfUpgrade = ((user.rig + 2) ** 2) * 100;
 
@@ -58,11 +56,10 @@ module.exports.execute = async function(msg, dbClient, args) {
       { name: "earnings per block (~8 blocks mined per hour)", value: `$${config.moneyPerBlock * (user.rig / 2)}` },
       { name: "cost to upgrade to next level", value: `$${costOfUpgrade}` }
     )
-  msg.reply(minerStatsEmbed);
 
   var stonksStatsEmbed = new Discord.MessageEmbed()
-    .setTitle(`${taggedUser}'s Stonks`)
-    .setDescription(`[Stock] price, total value, total return`)
+    .setTitle(`${taggedUser}'s stonks (total value)`)
+    .setDescription(`check **$stonks** for today's price`)
 
   var symbols = user.stock.map(stock => stock.name);
 
@@ -75,7 +72,7 @@ module.exports.execute = async function(msg, dbClient, args) {
     var plural = userStock.quantity == 1 ? 0 : 1;
     var stockReturn = userStock.avgPrice == 0 ? 0 : (curPrice - userStock.avgPrice)
     var totalStockReturn = stockReturn * userStock.quantity;
-    var gain = userStock.avgPrice == 0 ? 0 : (stockReturn * 100 / userStock.avgPrice).toFixed(2)
+    var gain = userStock.avgPrice == 0 ? 0 : (stockReturn * 100 / userStock.avgPrice)
 
     if (userStock.quantity == 0) {
       continue;
@@ -84,10 +81,13 @@ module.exports.execute = async function(msg, dbClient, args) {
     originalInput += userStock.avgPrice * userStock.quantity;
     portfolioValue += userStock.quantity * curPrice;
 
-    stonksStatsEmbed.addField(`[${ticker.toUpperCase()}] $${helper.formatNumber(curPrice.toFixed(2))}, $${helper.formatNumber((curPrice * userStock.quantity).toFixed(2))}, $${helper.formatNumber(totalStockReturn.toFixed(2))}`, `${stockResult[ticker].price.shortName} ${userStock.quantity} share${plural ? "s" : ""} ${gain}%`)
+    stonksStatsEmbed.addField(`${ticker.toUpperCase()} $${helper.formatNumber((curPrice * userStock.quantity))}`, `${userStock.quantity} share${plural ? "s" : ""} ${helper.formatNumber(totalStockReturn, sign='+')} (${helper.formatNumber(gain, sign='+')}%)`)
   }
 
-  stonksStatsEmbed.addField(`Total Portfolio Value: $${helper.formatNumber(portfolioValue.toFixed(2))}`, `${totalReturn > 0 ? 'Up' : 'Down'} $${helper.formatNumber(totalReturn.toFixed(2))} (${helper.formatNumber((totalReturn * 100 / originalInput).toFixed(2))}%)`);
+  cashStatsEmbed.addField(`stonk portfolio`, `$${helper.formatNumber(portfolioValue)} ${helper.formatNumber(totalReturn, sign='+')} (${helper.formatNumber((totalReturn * 100 / originalInput), sign='+')}%)`);
+  cashStatsEmbed.addField(`global rank`, `#${rank} out of ${total_users} players.`);
 
+  msg.reply(cashStatsEmbed);
   msg.reply(stonksStatsEmbed);
+  msg.reply(minerStatsEmbed);
 }

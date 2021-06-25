@@ -16,30 +16,22 @@ module.exports.execute = async function(msg, dbClient, args) {
   const userResult = await dbo.collection("economy_test").find(query).toArray()
 
   if (args.length == 0) {
-
-
     if (userResult.length == 0) {
       msg.reply("type $start to create an account first.");
       throw -1;
     }
 
     user = userResult[0];
-    // total value
-    // gain ($, %)
-    // your stocks
-    // your watchlist
 
     userStocks = user.stock.map(stock => stock.name);
     if (user.watchlist.length != 0) {
       userStocks = userStocks.concat(user.watchlist);
     }
-    console.log(userStocks)
     var userStocksEmbed = new Discord.MessageEmbed()
-      .setTitle(`${msg.author.username}'s stonks`)
+      .setTitle(`${msg.author.username}'s stonks (today's price)`)
       .setDescription(`check **$stats** for total values`)
     var watchlistEmbed = new Discord.MessageEmbed()
-      .setTitle(`${msg.author.username}'s watchlist`)
-      .setDescription(`use **$stonks <TICKER>** for more options and detailed information`)
+      .setTitle(`${msg.author.username}'s watchlist (today's price)`)
 
     const stockResult = await yahooFinance.quote({ symbols: userStocks, modules: ['price'] });
 
@@ -71,14 +63,14 @@ module.exports.execute = async function(msg, dbClient, args) {
 
       watchlistEmbed.addField(`${ticker.toUpperCase()} $${helper.formatNumber(curPrice)}`, `${helper.formatNumber(dayGain, sign = '+')} (${helper.formatNumber(100 * dayGain / open)}%)`);
     }
-
     var portfolioGain = portfolioTotalValue - portfolioOriginalValue;
     var portfolioEmbed = new Discord.MessageEmbed()
-      .setTitle(`$${helper.formatNumber(portfolioTotalValue)}`)
-      .setDescription(`${portfolioGain >= 0 ? "Up" : "Down"} $${helper.formatNumber(Math.abs(portfolioGain))} (${helper.formatNumber(portfolioGain * 100 / portfolioOriginalValue)}%)`);
+      .setTitle(`portfolio value`)
+      .setDescription(`**$${helper.formatNumber(portfolioTotalValue)}**\n${helper.formatNumber(Math.abs(portfolioGain), sign='+')} (${helper.formatNumber(portfolioGain * 100 / portfolioOriginalValue, sign='+')}%)`);
     msg.reply(portfolioEmbed);
     msg.reply(userStocksEmbed);
     msg.reply(watchlistEmbed);
+    msg.reply(`use **$stonks <TICKER>** for more options and detailed information`);
   } else {
     symbols = args;
   }
