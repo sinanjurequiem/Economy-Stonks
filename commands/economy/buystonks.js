@@ -52,6 +52,7 @@ module.exports.execute = async function(msg, dbClient, args) {
     updateDocumentUser = {
       $inc: {
         balance: -amount * price,
+        balanceUpdate: -amount * price
       },
       $addToSet: {
         stock: {
@@ -69,6 +70,7 @@ module.exports.execute = async function(msg, dbClient, args) {
     updateDocumentUser = {
       $inc: {
         balance: -amount * price,
+        balanceUpdate: -amount * price,
         "stock.$.quantity": amount
       },
       $set: {

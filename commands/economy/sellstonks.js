@@ -39,7 +39,7 @@ module.exports.execute = async function(msg, dbClient, args) {
   price = stockResult.price.regularMarketPrice;
 
   userStockResult = userResult[0].stock.filter(stock => stock.name == stockName)
-  
+
   if (userStockResult.length == 0 || userStockResult[0].quantity == 0) {
     msg.reply(`You have no ${stockName.toUpperCase()} shares to sell.`);
     throw -3;
@@ -50,7 +50,8 @@ module.exports.execute = async function(msg, dbClient, args) {
   const updateDocumentUser = {
     $inc: {
       ["stock.$.quantity"]: -amount,
-      balance: amount * price
+      balance: amount * price,
+      balanceUpdate: amount * price
     }
   }
   await dbo.collection("economy_test").updateOne({ id: `${msg.author.id}`, "stock.name": stockName }, updateDocumentUser);

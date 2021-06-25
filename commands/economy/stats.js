@@ -11,7 +11,7 @@ module.exports = {
 
 module.exports.execute = async function(msg, dbClient, args) {
   if (args.length == 0)
-      taggedUser = msg.author.username;
+    taggedUser = msg.author.username;
   else {
     if (!msg.mentions.users.size)
       taggedUser = args.join(' ');
@@ -43,7 +43,7 @@ module.exports.execute = async function(msg, dbClient, args) {
     .setTitle(`${taggedUser}'s General Stats`)
     .setDescription(`These are your stats`)
     .addFields(
-      { name: "bank balance", value: `$${helper.formatNumber(balance)}` }
+      { name: "bank balance", value: `$${helper.formatNumber(balance)} ${user.balanceUpdate != 0 ? `**${helper.formatNumber(user.balanceUpdate, sign = '+')}**` : ''}` }
     )
 
   var costOfUpgrade = ((user.rig + 2) ** 2) * 100;
@@ -64,7 +64,7 @@ module.exports.execute = async function(msg, dbClient, args) {
   var symbols = user.stock.map(stock => stock.name);
 
   const stockResult = await yahooFinance.quote({ symbols: symbols, modules: ['price'] });
-  
+
   for (var i = 0; i < user.stock.length; i++) {
     var ticker = user.stock[i].name
     var curPrice = stockResult[ticker].price.regularMarketPrice;
@@ -81,13 +81,15 @@ module.exports.execute = async function(msg, dbClient, args) {
     originalInput += userStock.avgPrice * userStock.quantity;
     portfolioValue += userStock.quantity * curPrice;
 
-    stonksStatsEmbed.addField(`${ticker.toUpperCase()} $${helper.formatNumber((curPrice * userStock.quantity))}`, `${userStock.quantity} share${plural ? "s" : ""} ${helper.formatNumber(totalStockReturn, sign='+')} (${helper.formatNumber(gain, sign='+')}%)`)
+    stonksStatsEmbed.addField(`${ticker.toUpperCase()} $${helper.formatNumber((curPrice * userStock.quantity))}`, `${userStock.quantity} share${plural ? "s" : ""} ${helper.formatNumber(totalStockReturn, sign = '+')} (${helper.formatNumber(gain, sign = '+')}%)`)
   }
 
-  cashStatsEmbed.addField(`stonk portfolio`, `$${helper.formatNumber(portfolioValue)} ${helper.formatNumber(totalReturn, sign='+')} (${helper.formatNumber((totalReturn * 100 / originalInput), sign='+')}%)`);
+  cashStatsEmbed.addField(`stonk portfolio`, `$${helper.formatNumber(portfolioValue)} ${helper.formatNumber(totalReturn, sign = '+')} (${helper.formatNumber((totalReturn * 100 / originalInput), sign = '+')}%)`);
   cashStatsEmbed.addField(`global rank`, `#${rank} out of ${total_users} players.`);
 
   msg.reply(cashStatsEmbed);
   msg.reply(stonksStatsEmbed);
   msg.reply(minerStatsEmbed);
+
+  await dbo.collection('economy_test').updateOne({ id: msg.author.id }, { $set: { balanceUpdate: 0 } });
 }

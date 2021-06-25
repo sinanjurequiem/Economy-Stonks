@@ -11,6 +11,7 @@ module.exports = {
         const newAccount = {
           id: `${msg.author.id}`,
           balance: 0,
+          balanceUpdate:0,
           username: `${msg.author.username}`,
           stock: [],
           thievery: 1,

@@ -84,7 +84,8 @@ module.exports = {
       }
       const updatePlayerDocument = {
         $inc: {
-          balance: playerBalInc//,
+          balance: playerBalInc,
+          balanceUpdate: playerBalInc//,
           // thievery: success ? 1:x
         }
       }
@@ -95,7 +96,8 @@ module.exports = {
 
       const updateTargetDocument = {
         $inc: {
-          balance: targetBalInc
+          balance: targetBalInc,
+          balanceUpdate: targetBalInc
         }
       }
       return dbo.collection("economy").updateOne(targetQuery, updateTargetDocument);

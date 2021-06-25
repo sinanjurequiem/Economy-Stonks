@@ -18,7 +18,8 @@ module.exports = {
         const updateDocument = {
           $inc: {
             rig: 1,
-            balance: -costOfUpgrade
+            balance: -costOfUpgrade,
+            balanceUpdate: -costOfUpgrade
           },
         };
         console.log(`${msg.author.username} has upgraded their mining machine to lvl ${result[0].rig + 1}.`);
