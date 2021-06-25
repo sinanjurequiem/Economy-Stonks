@@ -43,7 +43,7 @@ module.exports.execute = async function(msg, dbClient, args) {
     .setTitle(`${taggedUser}'s General Stats`)
     .setDescription(`These are your stats`)
     .addFields(
-      { name: "bank balance", value: `$${helper.formatNumber(balance.toFixed(2))}` },
+      { name: "bank balance", value: `$${helper.formatNumber(balance)}` },
       { name: "global rank", value: `#${rank} out of ${total_users} players.` }
     )
   msg.reply(cashStatsEmbed);

@@ -9,17 +9,84 @@ module.exports = {
 }
 
 module.exports.execute = async function(msg, dbClient, args) {
-  var shopEmbed = new Discord.MessageEmbed()
-    .setTitle("Stonks")
-    .setDescription("this is the stonks market.")
   var symbols = [];
+
+  var dbo = dbClient.db("economy");
+  var query = { id: `${msg.author.id}` };
+  const userResult = await dbo.collection("economy_test").find(query).toArray()
+
   if (args.length == 0) {
-    symbols = ['AAPL', 'asdf', 'AMC', 'TSLA'];
+
+
+    if (userResult.length == 0) {
+      msg.reply("type $start to create an account first.");
+      throw -1;
+    }
+
+    user = userResult[0];
+    // total value
+    // gain ($, %)
+    // your stocks
+    // your watchlist
+
+    userStocks = user.stock.map(stock => stock.name);
+    if (user.watchlist.length != 0) {
+      userStocks = userStocks.concat(user.watchlist);
+    }
+    console.log(userStocks)
+    var userStocksEmbed = new Discord.MessageEmbed()
+      .setTitle(`${msg.author.username}'s stonks`)
+      .setDescription(`check **$stats** for total values`)
+    var watchlistEmbed = new Discord.MessageEmbed()
+      .setTitle(`${msg.author.username}'s watchlist`)
+      .setDescription(`use **$stonks <TICKER>** for more options and detailed information`)
+
+    const stockResult = await yahooFinance.quote({ symbols: userStocks, modules: ['price'] });
+
+    var watchlist = user.watchlist
+    var portfolioTotalValue = 0;
+    var portfolioOriginalValue = 0;
+
+    for (var i = 0; i < user.stock.length; i++) {
+      var ticker = user.stock[i].name
+      var curPrice = stockResult[ticker].price.regularMarketPrice;
+      var originalValue = user.stock[i].avgPrice * user.stock[i].quantity;
+      var totalValue = curPrice * user.stock[i].quantity;
+      var open = stockResult[ticker].price.regularMarketOpen
+      var dayGain = curPrice - open;
+      portfolioTotalValue += totalValue;
+      portfolioOriginalValue += originalValue;
+
+      userStocksEmbed.addField(`${ticker.toUpperCase()} $${helper.formatNumber(curPrice)}`, `${helper.formatNumber(dayGain, sign = '+')} (${helper.formatNumber(100 * dayGain / open)}%)`);
+    }
+    watchlist.filter(function(value) {
+      return !user.stock.includes(value);
+    })
+    for (var i = 0; i < watchlist.length; i++) {
+
+      var ticker = watchlist[i]
+      var curPrice = stockResult[ticker].price.regularMarketPrice;
+      var open = stockResult[ticker].price.regularMarketOpen
+      var dayGain = curPrice - open;
+
+      watchlistEmbed.addField(`${ticker.toUpperCase()} $${helper.formatNumber(curPrice)}`, `${helper.formatNumber(dayGain, sign = '+')} (${helper.formatNumber(100 * dayGain / open)}%)`);
+    }
+
+    var portfolioGain = portfolioTotalValue - portfolioOriginalValue;
+    var portfolioEmbed = new Discord.MessageEmbed()
+      .setTitle(`$${helper.formatNumber(portfolioTotalValue)}`)
+      .setDescription(`${portfolioGain >= 0 ? "Up" : "Down"} $${helper.formatNumber(Math.abs(portfolioGain))} (${helper.formatNumber(portfolioGain * 100 / portfolioOriginalValue)}%)`);
+    msg.reply(portfolioEmbed);
+    msg.reply(userStocksEmbed);
+    msg.reply(watchlistEmbed);
   } else {
     symbols = args;
   }
+  if (userResult.length != 0) {
+    symbols.push(userResult.watchlist)
+  }
 
-  const result = await yahooFinance.quote({symbols: symbols, modules:['price']});
+  const result = await yahooFinance.quote({ symbols: symbols, modules: ['price'] });
 
   for (var i = 0; i < symbols.length; i++) {
     var stock = result[symbols[i]];
@@ -34,3 +101,27 @@ module.exports.execute = async function(msg, dbClient, args) {
   }
   msg.reply(shopEmbed);
 }
+
+
+
+/*
+$stonks
+total value
+gain ($, %)
+your stocks
+your watchlist
+
+$stonks AMC
+price
+day's gain
+graph
+shares owned
+total value
+avg price
+portfolio %
+today's return
+total return
+1. buy
+2. sell
+3. toggle watch (currently watching/not watching)
+ */

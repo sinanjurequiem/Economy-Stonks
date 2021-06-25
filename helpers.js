@@ -17,6 +17,10 @@ exports.getCommands = function() {
   return commands;
 };
 
-exports.formatNumber = function (num) {
-  return num.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,')
+exports.formatNumber = function (num, sign = '-', decimals = 2) {
+  var rtext = num.toFixed(decimals).toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,')
+  if (sign.includes('+') && num >= 0) {
+    return '+' + rtext;
+  }
+  return rtext;
 };
