@@ -4,7 +4,7 @@ var helper = require('../../helpers.js');
 module.exports = {
   name: "rob",
   description: "rob a guy. don't ping them, just use their username. we designed this for maximum sneakiness. Check the leaderboard for targets.",
-  cooldown: 60,
+  cooldown: 30,
   status: "enabled",
   category: "bonus money making",
   execute(msg, dbClient, args) {
@@ -21,11 +21,11 @@ module.exports = {
     // if (args.length == 0 || !mention) {
     if (args.length == 0) {
       msg.reply("enter a username, you can't rob thin air");
-      return;
+      return -1;
       // } else if (mention.id == msg.author.id){
     } else if (targetUsername == msg.author.username) {
       msg.reply("you can't rob yourself. don't try and break the system.");
-      return;
+      return -1;
     }
 
     var dbo = dbClient.db("economy");
@@ -36,7 +36,7 @@ module.exports = {
     var promise = dbo.collection("economy").find(targetQuery).toArray().then(function(result, err) {
       if (err || result.length == 0) {
         msg.reply("That person doesn't exist, enter a valid username. Don't ping them! (eg $rob mmvmo)");
-        throw -2;
+        throw -1;
       }
       target = result[0];
       targetPetBonus = result[0].pets.dog.bonus / 100;
