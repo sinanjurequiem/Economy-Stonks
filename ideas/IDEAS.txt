@@ -1,21 +1,5 @@
 TODO
-webhooks for vote rewards
-- set up web server
-sometime in future: add pets aaaaaaaaaaa{
-	[DONE]bonuses when robbing
-	[DONE]bonus to defense
-	will find stuff for you
-	generates passive DEBT, HA YOU THOUGHT I'D SAY INCOME
-}
-remove stocks total quantity, hide available quantity
 website (https://www.npmjs.com/package/@top-gg/sdk)
-upgrade security
-robbing
-- add descriminator
-notifications command
-[DONE]dynamic help command
-update username with stats command
-[BUG]dont start cooldown if user profile doesn't exist
 
 Level Up:
 requirements:
@@ -57,10 +41,6 @@ Objectives list:
 - server engagement
 
 Minigames:
-
-1. Trivia/Fill in the blank
-- multiplayer/singleplayer
-- first to answer correctly gets a bonus
 
 Game loop:
 Balance the bot and give out absolutely broken rewards for doing things in our favor

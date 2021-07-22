@@ -34,6 +34,7 @@ const Logs = sequelize.define('command_log', {
   username: Sequelize.TEXT,
 	command: Sequelize.TEXT,
 	parameters: Sequelize.TEXT,
+  error: Sequelize.TEXT
 });
 
 //client login
@@ -129,6 +130,7 @@ function stockUpdate() {
 //command handler
 client.on('message', async function(msg) {
 	var prefix;
+  var commandErr = 0;
 	try {
 		prefix = await dashboard.getVal(msg.guild.id, "prefix");
 	} catch (err) {
@@ -179,14 +181,16 @@ client.on('message', async function(msg) {
 	} catch (error) {
 		console.error(error);
 		msg.reply('error: bot has crashed');
+    commandErr = error;
 	}
   try {
     // equivalent to: INSERT INTO tags (name, description, username) values (?, ?, ?);
     const log = await Logs.create({
       userid: msg.author.id,
-      username: msg.author.username,
+      username: String(msg.author.username),
       command: commandName,
       parameters: args.join(),
+      error: String(commandErr),
     });
   }
   catch (e) {
