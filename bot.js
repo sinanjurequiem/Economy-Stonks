@@ -9,9 +9,6 @@ client.commands = helpers.getCommands();
 const config = require('./configuration/config.json')
 const AutoPoster = require('topgg-autoposter')
 const ap = AutoPoster(config.topggtoken, client)
-ap.on('posted', () => {
-	console.log('Posted stats to Top.gg!')
-})
 const botdash = require('botdash.pro');
 var dashboard;
 
