@@ -18,6 +18,9 @@ var dashboard;
 const QuickChart = require('quickchart-js');
 const humanizeDuration = require('humanize-duration');
 
+const cheweyBotAnalyticsAPI=require("discord-bot-analytics")
+const customAnalytics = new cheweyBotAnalyticsAPI(config.analytics_token, client)
+
 require('dotenv').config();
 
 //global variables
