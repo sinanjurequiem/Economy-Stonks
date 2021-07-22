@@ -1,6 +1,7 @@
 //initial constants
 const Discord = require('discord.js');
 const helpers = require('./helpers.js');
+const Sequelize = require('sequelize');
 
 const client = new Discord.Client({ shardCount: 1 });
 client.cooldowns = new Discord.Collection();
@@ -15,9 +16,6 @@ var dashboard;
 const QuickChart = require('quickchart-js');
 const humanizeDuration = require('humanize-duration');
 
-const cheweyBotAnalyticsAPI=require("discord-bot-analytics")
-const customAnalytics = new cheweyBotAnalyticsAPI(config.analytics_token, client)
-
 require('dotenv').config();
 
 //global variables
@@ -25,6 +23,21 @@ var MongoClient = require('mongodb').MongoClient;
 var url = config.dburl;
 var dbClient = null;
 
+const sequelize = new Sequelize(config.sqldbname, config.sqldbusername, config.sqldbpassword, {
+	host: config.sqlhost,
+	dialect: 'mysql',
+	logging: false,
+});
+
+const Logs = sequelize.define('command_log', {
+  id: {
+    type: Sequelize.BIGINT,
+    primaryKey: true,
+  },
+  username: Sequelize.TEXT,
+	command: Sequelize.TEXT,
+	parameters: Sequelize.TEXT,
+});
 
 //client login
 client.login(config.token);
@@ -35,6 +48,7 @@ client.on('ready', async () => {
 	client.user.setActivity(`stonks go brrr`, {
 		type: 'WATCHING'
 	})
+  Logs.sync();
 });
 
 
@@ -169,4 +183,16 @@ client.on('message', async function(msg) {
 		console.error(error);
 		msg.reply('error: bot has crashed');
 	}
+  try {
+    // equivalent to: INSERT INTO tags (name, description, username) values (?, ?, ?);
+    const log = await Logs.create({
+      id: msg.author.id,
+      username: msg.author.username,
+      command: commandName,
+      parameters: args.join(),
+    });
+  }
+  catch (e) {
+    console.log('Something went wrong with adding a tag. Error:', e.name);
+  }
 });
