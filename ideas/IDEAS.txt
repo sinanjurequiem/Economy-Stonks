@@ -1,5 +1,8 @@
 TODO
 website (https://www.npmjs.com/package/@top-gg/sdk)
+help
+- general first level, options for selecting more information
+- earn money
 
 Level Up:
 requirements:
@@ -83,3 +86,37 @@ NON-INVESTMENT
 resources: 
 cosmetic items
 game actions: 
+
+
+
+HELP
+page 0: 
+1. Get started
+2. Stock market 
+	> Stonks, buystonks, shop
+3. make some money $$$ 
+	> trivia, daily, hourly, robbing, coinflip (later)
+4. cryptomining :D
+	> buyminer (insert more commands here)
+5. misc commands
+	> everything else
+
+
+1. Get started
+  - start, stats
+2. Make money
+  - immediate
+    - trivia, hourly, daily, robbing
+  - long term
+    - stonks
+		- crypto
+3. Bonuses
+	- pet store
+	-pet
+	-boosts (shhhhh future stuff)
+4. Misc commands
+  - vote, update, deleteaccount, dashboard, invite, botstats
+
+$help
+Use `$help [number]` to see a page.
+

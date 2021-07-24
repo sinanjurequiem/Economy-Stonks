@@ -5,7 +5,7 @@ module.exports = {
   name: "leaderboard",
   description: "show the 10 people around the world with the highest bank balance",
   status: "enabled",
-  category: "economy",
+  category: "get started",
   execute(msg, dbClient, args) {
     var dbo = dbClient.db("economy");
     var promise = dbo.collection("economy").find({}).toArray().then(function(result, err) {

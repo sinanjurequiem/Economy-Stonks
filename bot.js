@@ -4,11 +4,13 @@ const helpers = require('./helpers.js');
 const Sequelize = require('sequelize');
 
 const client = new Discord.Client({ shardCount: 1 });
+global.client = client;
+require('discord-buttons')(client);
 client.cooldowns = new Discord.Collection();
 client.commands = helpers.getCommands();
 
 const config = require('./configuration/config.json')
-const AutoPoster = require('topgg-autoposter')
+const AutoPoster = require('topgg-autoposter') 
 const ap = AutoPoster(config.topggtoken, client)
 const botdash = require('botdash.pro');
 var dashboard;

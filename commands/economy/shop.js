@@ -5,7 +5,7 @@ module.exports = {
   name: "stonks",
   description: "see the stonks on sale",
   status: "enabled",
-  category: "stonk market",
+  category: "moneylater",
   execute(msg, dbClient, args) {
 
     var dbo = dbClient.db("economy");

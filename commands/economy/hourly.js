@@ -5,7 +5,7 @@ module.exports = {
   description: "get your hourly dose of caffeine and work. YOU NEED MONEY, NO TIME FOR SLEEP.",
   cooldown: 3600,
   status: "enabled",
-  category: "economy",
+  category: "moneynow",
   execute(msg, dbClient, args) {
     var dbo = dbClient.db("economy");
     var query = { id: `${msg.author.id}` };
