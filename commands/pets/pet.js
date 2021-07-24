@@ -26,7 +26,7 @@ module.exports = {
 			if (args.length === 0) {
 				var message = new Discord.MessageEmbed()
 					.setTitle(`${msg.author.username}'s Pets`)
-					.setDescription(`your pets. take care of them.`)
+					.setDescription(`your pets. take care of them. **$pet store** to buy more`)
 				for (var i = 0; i < result.length; i++) {
 					var name = result[i]["name"]
 					var bonus = pets[name]["bonus"]
