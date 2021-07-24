@@ -3,7 +3,7 @@ module.exports = {
   name: "dashboard",
   description: "access the dashboard for the bot",
   status: "enabled",
-  category: "extra",
+  category: "Extra",
   execute(msg, args) {
     var dashboardEmbed = new Discord.MessageEmbed()
       .setTitle("Dashboard for Economy Stonks")

@@ -6,7 +6,7 @@ module.exports = {
   name: "stats",
   description: "get your stats, including bank balance",
   status: "enabled",
-  category: "get started",
+  category: "Get Started",
   execute(msg, dbClient, args) {
     var taggedUser = msg.mentions.users.first();
     if (!msg.mentions.users.size) {

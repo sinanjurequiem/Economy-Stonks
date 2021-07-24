@@ -10,7 +10,7 @@ module.exports = {
   name: "help",
   description: "what do you think you're looking at?",
   status: "enabled",
-  category: "get started",
+  category: "Get Started",
   execute(msg, args) {
 
     var categories = new Set(commands.map(command => command.category));
@@ -31,7 +31,7 @@ module.exports = {
         var helpembed = new Discord.MessageEmbed()
           .setTitle(button.id.toUpperCase())
         for (command of commands.filter(command => command.category == button.id)) {
-          helpembed.addField(command[1].name, command[1].description)
+          helpembed.addField(`$${command[1].name}`, command[1].description)
         }
         msg.reply(helpembed);
       }

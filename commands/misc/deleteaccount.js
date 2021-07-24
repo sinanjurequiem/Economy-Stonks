@@ -3,7 +3,7 @@ module.exports = {
   name: "deleteaccount",
   description: "delete user's profile",
   status: "enabled",
-  category: "extra",
+  category: "Extra",
   execute(msg, dbClient, args) {
     var dbo = dbClient.db("economy");
     var query = { id: `${msg.author.id}` };

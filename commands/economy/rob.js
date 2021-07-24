@@ -6,7 +6,7 @@ module.exports = {
   description: "rob a guy. don't ping them, just use their username. we designed this for maximum sneakiness. Check the leaderboard for targets.",
   cooldown: 30,
   status: "enabled",
-  category: "moneynow",
+  category: "Make Money Now",
   execute(msg, dbClient, args) {
     var target;
     var player;
