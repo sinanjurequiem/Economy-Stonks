@@ -131,7 +131,7 @@ function stockUpdate() {
 //command handler
 client.on('message', async function(msg) {
 	var prefix;
-  var commandErr = 0;
+  var commandErr = '0';
 	try {
 		prefix = await dashboard.getVal(msg.guild.id, "prefix");
 	} catch (err) {
@@ -173,27 +173,39 @@ client.on('message', async function(msg) {
 
 
 	try {
-		var rv = command.execute(msg, dbClient, args);
+		var rv = await command.execute(msg, dbClient, args);
     Promise.resolve(rv).then(function(result) {
       if (result == -1) {
 	      setTimeout(() => timestamps.delete(msg.author.id));
       }
-    }).catch(err => {console.log(err)});
-	} catch (error) {
-		console.error(error);
-		msg.reply('error: bot has crashed');
-    commandErr = error;
-	}
-  try {
-    // equivalent to: INSERT INTO tags (name, description, username) values (?, ?, ?);
-    const log = await Logs.create({
-      userid: msg.author.id,
-      command: commandName,
-      parameters: args.join(),
-      error: String(commandErr),
+      try {
+        Logs.create({
+          userid: msg.author.id,
+          command: commandName,
+          parameters: args.join(),
+          error: result,
+        });
+      }
+      catch (e) {
+        console.log('Something went wrong with adding a tag. Error:', e.name);
+      }
+    }).catch(err => {
+      console.log(`${err}`);
     });
-  }
-  catch (e) {
-    console.log('Something went wrong with adding a tag. Error:', e.name);
-  }
+	} catch (error) {
+    console.error(error);
+		msg.reply('error: bot has crashed');
+
+    try {
+      Logs.create({
+        userid: msg.author.id,
+        command: commandName,
+        parameters: args.join(),
+        error: error,
+      });
+    }
+    catch (e) {
+      console.log('Something went wrong with adding a tag. Error:', e.name);
+    }
+	}
 });
