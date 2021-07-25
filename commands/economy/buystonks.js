@@ -19,12 +19,12 @@ module.exports = {
         msg.reply('please **$start** a new account first.');
         throw "no account";
       } else if (args.length < 2) {
-        msg.reply("$buystonks <quantity> <ticker>");
+        msg.reply("$buystonks __quantity__ __ticker__\neg. $buystonks 1 DGS");
         throw "not enough arguments"
       }
       amount = parseInt(args[0]);
       if (isNaN(amount) || amount < 1) {
-        msg.reply("enter a valid number");
+        msg.reply("enter a valid number\neg. $buystonks 1 DGS");
         throw "invalid number"
       }
 
@@ -34,7 +34,7 @@ module.exports = {
       return dbo.collection("bank").find(query).toArray();
     }).then(function(result, err) {
       if (result.length == 0) {
-        msg.reply("Stonk does not exist, please enter a valid stonk.");
+        msg.reply("Stonk does not exist, please enter a valid stonk.\neg. $buystonks 1 DGS");
         throw "stock does not exist";
       }
       if (amount > result[0].quantity) {

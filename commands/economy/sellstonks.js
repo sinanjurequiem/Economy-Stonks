@@ -19,7 +19,7 @@ module.exports = {
         msg.reply('please type $start to create an account first.');
         throw -1;
       } else if (args.length < 2) {
-        msg.reply("$sellstonks <quantity> <ticker>");
+        msg.reply("$sellstonks __quantity__ __ticker__\neg. $sellstonks 1 DGS");
         throw "not enough arguments"
       }
       amount = parseInt(args[0]);
@@ -31,7 +31,7 @@ module.exports = {
       query = { ticker: stockName };
 
       if (!(stockName in userResult[0].stock)) {
-        msg.reply("Stonk does not exist, please enter a valid stonk. Format: $sellstonks <quantity> <ticker>");
+        msg.reply("Stonk does not exist, please enter a valid stonk.\neg. $sellstonks 1 DGS");
         throw "stock does not exist";
       }
       if (amount > userResult[0].stock[stockName].quantity) {

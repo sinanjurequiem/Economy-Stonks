@@ -131,7 +131,6 @@ function stockUpdate() {
 //command handler
 client.on('message', async function(msg) {
 	var prefix;
-  var commandErr = '0';
 	try {
 		prefix = await dashboard.getVal(msg.guild.id, "prefix");
 	} catch (err) {
