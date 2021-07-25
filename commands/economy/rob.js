@@ -3,7 +3,7 @@ var helper = require('../../helpers.js');
 
 module.exports = {
   name: "rob",
-  description: "rob a guy. don't ping them, just use their username. we designed this for maximum sneakiness. Check the leaderboard for targets.",
+  description: "rob a guy. we designed this for maximum sneakiness. Check the **$leaderboard** for targets.\neg. $rob mmvmo",
   cooldown: 30,
   status: "enabled",
   category: "Make Money Now",
@@ -35,7 +35,7 @@ module.exports = {
     // get target balance, security level
     var promise = dbo.collection("economy").find(targetQuery).toArray().then(function(result, err) {
       if (err || result.length == 0) {
-        msg.reply("That person doesn't exist, enter a valid username. Don't ping them! (eg $rob mmvmo)");
+        msg.reply("That person doesn't exist, enter a valid username. Don't ping them! (eg. **$rob mmvmo**)");
         throw -1;
       }
       target = result[0];
@@ -46,7 +46,7 @@ module.exports = {
     }).then(function(result, err) {
       if (err) throw err;
       if (result.length == 0) {
-        msg.reply('please type $start to create an account first.');
+        msg.reply('please **$start** a new account first.');
         throw -1;
       };
       //   get robber cat bonus

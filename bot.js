@@ -33,7 +33,6 @@ const sequelize = new Sequelize(config.sqldbname, config.sqldbusername, config.s
 
 const Logs = sequelize.define('command_log', {
   userid: Sequelize.BIGINT,
-  username: Sequelize.TEXT,
 	command: Sequelize.TEXT,
 	parameters: Sequelize.TEXT,
   error: Sequelize.TEXT
@@ -189,7 +188,6 @@ client.on('message', async function(msg) {
     // equivalent to: INSERT INTO tags (name, description, username) values (?, ?, ?);
     const log = await Logs.create({
       userid: msg.author.id,
-      username: String(msg.author.username),
       command: commandName,
       parameters: args.join(),
       error: String(commandErr),

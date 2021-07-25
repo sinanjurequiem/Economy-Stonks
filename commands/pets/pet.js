@@ -2,7 +2,7 @@ const Discord = require('discord.js');
 
 module.exports = {
 	name: "pet",
-	description: "your pets! you can put `pet store` to buy new pets",
+	description: "your pets! Check out the **$pet store** to buy new pets",
   status: "enabled",
   category: "Bonuses",
 	execute(msg, dbClient, args) {
@@ -13,7 +13,7 @@ module.exports = {
 		var promise = dbo.collection("economy").find(query).toArray().then(function(result, err) {
       if (err) throw err;
       if (result.length == 0) {
-        msg.reply('please type $start to create an account first.');
+        msg.reply('please **$start** a new account first.');
         throw -1;
       }
       
@@ -26,7 +26,7 @@ module.exports = {
 			if (args.length === 0) {
 				var message = new Discord.MessageEmbed()
 					.setTitle(`${msg.author.username}'s Pets`)
-					.setDescription(`your pets. take care of them. **$pet store** to buy more`)
+					.setDescription(`Your pets! Check out the **$pet store** to buy new pets`)
 				for (var i = 0; i < result.length; i++) {
 					var name = result[i]["name"]
 					var bonus = pets[name]["bonus"]
@@ -40,7 +40,7 @@ module.exports = {
 
 			if (args[0] === "store") {
 				var	message = new Discord.MessageEmbed()
-					.setTitle(`Which pet would you like to buy?`)
+					.setTitle(`Which pet would you like to buy?\neg. cat`)
 				for (var i = 0; i < result.length; i++) {
 					var name = result[i]["name"];
 					var price = pets[name]["upgrade_price"]

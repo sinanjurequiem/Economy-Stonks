@@ -10,7 +10,7 @@ module.exports = {
     var promise = dbo.collection("economy").find(query).toArray().then(function(result, err) {
       if (err) throw err;
       if (result.length == 0) {
-        msg.reply('please type $start to create an account first.')
+        msg.reply('please **$start** a new account first.')
         throw err;
       }
     }).then(function(result, err) {

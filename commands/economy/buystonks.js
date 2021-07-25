@@ -2,7 +2,7 @@ var helper = require('../../helpers.js');
 
 module.exports = {
   name: "buystonks",
-  description: "$buystonks <qty> <ticker>",
+  description: "$buystonks __quantity__ __ticker__\neg. $buystonks 1 DGS",
   args: true,
   usage: "<quantity> <ticker>",
   status: "enabled",
@@ -16,7 +16,7 @@ module.exports = {
 
     var promise = dbo.collection("economy").find(userQuery).toArray().then(function(userResult) {
       if (userResult.length == 0) {
-        msg.reply('please type $start to create an account first.');
+        msg.reply('please **$start** a new account first.');
         throw "no account";
       } else if (args.length < 2) {
         msg.reply("$buystonks <quantity> <ticker>");
