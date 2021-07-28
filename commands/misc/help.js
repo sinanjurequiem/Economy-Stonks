@@ -13,11 +13,11 @@ module.exports = {
   category: "Get Started",
   execute(msg, dbClient, args) {
     if (args.length > 0) {
-      command_search = commands.filter(command => command.name == args[0])
+      command_search = commands.filter(command => args.some(arg => command.name == arg))
+      var helpembed = new Discord.MessageEmbed()
+        .setTitle(`Help`)
       for (command of command_search){
-        var helpembed = new Discord.MessageEmbed()
-          .setTitle(`Help`)
-          .addField(`$${command[1].name}`, command[1].description)
+          helpembed.addField(`$${command[1].name}`, command[1].description)
       }
       msg.channel.send(helpembed);
     } else {
