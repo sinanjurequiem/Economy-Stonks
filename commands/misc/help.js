@@ -33,19 +33,20 @@ module.exports = {
       }
 
       client.on('clickButton', async (button) => {
-        if (button.clicker.user.id == msg.author.id) {
-          console.log(button.id)
+        await button.reply.defer();
+        console.log(`${button.clicker.user.username} ${button.id}`)
 
+        if (button.clicker.user.id == msg.author.id) {
           var helpembed = new Discord.MessageEmbed()
             .setTitle(button.id.toUpperCase())
           for (command of commands.filter(command => command.category == button.id)) {
             helpembed.addField(`$${command[1].name}`, command[1].description)
           }
-          msg.reply(helpembed);
+          msg.channel.send(helpembed);
         }
       });
 
-      msg.channel.send("Help Menu", row);
+      msg.reply("Help Menu", row);
     }
 
     var promise = new Promise(() => {
